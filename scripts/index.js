@@ -9,11 +9,12 @@
 //                    - Anti-Cheat -
 //
 import { world } from "mojang-minecraft";
-import "./utils";
-/**
- * @Join event
- */
+import { ALLOWED_STUFF_IN_PLAYERNAME } from "./consts";
+import { Message_player, Global_message } from "./utils";
 
+/**
+ * @OnJoin welcomes players when they join and checks for namespoof
+ */
 const join = {};
 world.events.playerJoin.subscribe((data) =>
   Object.assign(join, { [data.player.nameTag]: 0 })
@@ -24,7 +25,17 @@ world.events.tick.subscribe(() => {
     Object.keys(join).forEach((plr) => {
       if (!playerList.includes(plr)) return;
       delete join[plr];
-      world.getDimension("overworld").runCommand(`say test`)
+      Message_player(plr, "This realm is protected by Odin AC")
+      if(plr.length > 20 || plr.length < 3 || plr == "" || plr == undefined) {
+        Global_message(`${plr} was banned for namespoofing`)
+        //ban player for namespoof. we need the ban system to kick, then despawn if kick fails
+      }
+      for (let i = 0; i < plr.length; i++) {
+        if(!ALLOWED_STUFF_IN_PLAYERNAME.includes(plr[i])) {
+          Global_message(`${plr} was banned for namespoofing`)
+          //ban player namespoof we need the ban system to kick, then despawn if kick fails
+        }
+      }
     });
 });
 

@@ -11,9 +11,9 @@
 import { world } from "mojang-minecraft";
 
 /**
- * @Join message function
+ * @PrivMessage message player function
  */
-function Message_player(player_name, message) {
+export function Message_player(player_name, message) {
   world
     .getDimension("overworld")
     .runCommand(
@@ -21,7 +21,10 @@ function Message_player(player_name, message) {
     );
 }
 
-function Global_message(message) {
+/**
+ * @GlobalMessage message all function
+ */
+export function Global_message(message) {
   world
     .getDimension("overworld")
     .runCommand(

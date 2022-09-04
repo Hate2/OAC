@@ -31,7 +31,7 @@ export class Block {
      * @returns {string} The block's id
      */
     getId() {
-        return this.block.id;
+        return this.block?.id;
     }
     /**
      * Get the block's location

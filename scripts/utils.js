@@ -1,3 +1,13 @@
+//              _______   _______   _______ 
+//             |   _   | |   _   | |   _   |
+//             |.  |   | |.  1   | |.  1___|
+//             |.  |   | |.  _   | |.  |___ 
+//             |:  1   | |:  |   | |:  1   |
+//             |::.. . | |::.|:. | |::.. . |
+//             `-------' `--- ---' `-------'
+//              01001111 01000001 01000011 
+//                    - Anti-Cheat -
+
 import { world } from "mojang-minecraft";
 import { Player } from './Api/index.js'
 import { adminScoreboard } from "./globalVars.js";

@@ -10,10 +10,22 @@
 
 import { system } from 'mojang-minecraft';
 import { Client, broadcastMessage } from './Api/index.js'
-import { nameRegex, illegalItems, adminScoreboard, config } from './globalVars.js'
+import { nameRegex, illegalItems, adminScoreboard, config, bannedMessages } from './globalVars.js'
 import { banPlayer, isAdmin, onPlayerJoin } from "./utils.js";
 
 const client = new Client({ command: { enabled: false } })
+
+client.on("Chat", ({ player, message, cancel }) => {
+    if (message.length > 200 || message.length === 0) return cancel()
+    if (message.toUpperCase() === message && message.length > 4) {
+        cancel()
+        return player.message(`§7[§9OAC§7] §cMessages are not allowed to be in all caps!`)
+    }
+    for (let i = 0; i < message.length + 1; i++) if (message.includes(bannedMessages[i])) {
+        cancel()
+        return player.message(`§7[§9OAC§7] §cThat message is not allowed (${bannedMessages[i] === "§k" ? "§k1§r§c" : bannedMessages[i]})`)
+    }
+})
 
 onPlayerJoin(player => {
     const log = player.getLog()
@@ -39,7 +51,7 @@ client.on("ItemUseOn", ({ item, cancel, entity }) => {
 })
 
 client.on("EntityHit", ({ entity, hitEntity }) => {
-    if (!entity.isPlayer() || isAdmin(entity)) return
+    if (!entity.isPlayer() || !hitEntity.isPlayer() || isAdmin(entity)) return
     const log = entity.getLog()
     const arr = (log.get("cps") ?? [])
     arr.push(11)

@@ -1,9 +1,35 @@
+//              _______   _______   _______ 
+//             |   _   | |   _   | |   _   |
+//             |.  |   | |.  1   | |.  1___|
+//             |.  |   | |.  _   | |.  |___ 
+//             |:  1   | |:  |   | |:  1   |
+//             |::.. . | |::.|:. | |::.. . |
+//             `-------' `--- ---' `-------'
+//              01001111 01000001 01000011 
+//                    - Anti-Cheat -
+
 export const config = {
     trustedTag: "trusted"
 }
 
 export const nameRegex = /[a-zA-Z0-9\-_() ]/
+
 export const adminScoreboard = 'oac_admin'
+
+export const bannedMessages = [
+    "discord.gg",
+    "dsc.gg",
+    "niggers",
+    "kys", 
+    "@outlook.com",
+    "@gmail.com",
+    "@hotmail.com",
+    "discordapp.com",
+    "§k",
+    "https://",
+    "http://"
+]
+
 export const illegalItems = [
     "minecraft:beehive",
     "minecraft:bee_nest",

@@ -47,16 +47,25 @@ function illegalName(e) {
 }
 
 client.on("ItemUseOn", ({ item, cancel, entity }) => {
-    if (illegalItems.includes(item.getId()) && !isAdmin(entity)) cancel()
+    if (entity.isPlayer() && illegalItems.includes(item.getId()) && !isAdmin(entity)) {
+        cancel()
+        if (entity.runCommand(`clear @s ${item.getId()}`).error) {
+            entity.runCommand(`clear @s`)
+            banPlayer(entity, `Having a ${item.getId().split(':')[1].replace(/_/g, ' ')}`)
+        } else {
+            entity.message(`§7[§9OAC§7] §cYou are not allowed to have that item!`)
+            entity.runCommand(`playsound random.glass @s ~~~ 1 0.5`)
+        }
+    }
 })
 
 client.on("EntityHit", ({ entity, hitEntity }) => {
-    if (!entity.isPlayer() || !hitEntity.isPlayer() || isAdmin(entity)) return
+    if (!entity.isPlayer() || isAdmin(entity)) return
     const log = entity.getLog()
     const arr = (log.get("cps") ?? [])
     arr.push(11)
     log.set("cps", arr)
-    if (entity.getEntitiesFromViewVector()[0]?.getId() !== hitEntity.getId()) {
+    if (!hitEntity.isPlayer() && entity.getEntitiesFromViewVector()[0]?.getId() !== hitEntity.getId()) {
         const arr = (log.get("killaura") ?? [])
         arr.push(10)
         log.set("killaura", arr)
@@ -82,6 +91,7 @@ client.on("Tick", (currentTick) => {
         for (let i = 0; i < size; i++) {
             const item = inv.getItem(i)
             if (!item) continue
+            if (item.getLore().find(lore => lore.includes("Horion"))) banPlayer(player, `Using an illegal item`)
             if (illegalItems.includes(item.getId()) || item.getId().endsWith("spawn_egg")) {
                 if (player.runCommand(`clear @s ${item.getId()}`).error) {
                     player.runCommand(`clear @s`)
@@ -96,6 +106,7 @@ client.on("Tick", (currentTick) => {
             for (const ench of enchList) {
                 if (enchList.slot === 0 && !enchList.canAddEnchantment(ench)) item.removeEnchant(ench.type.id)
                 if (ench.level > ench.type.maxLevel) item.removeEnchant(ench.type.id)
+                if (ench.level < 0) item.removeEnchant(ench.type.id)
             }
         }
         const log = player.getLog()
@@ -117,7 +128,7 @@ client.on("Tick", (currentTick) => {
             player.message(`§7[§9OAC§7] §cYou are not allowed to be in creative mode!`)
         }
         log.set("gamemode", player.getGamemode())
-        if (cps.length > 20) player.message(`§7[§9OAC§7] §cYou are clicking to fast! Please click slower`)
+        if (cps.length > 15) player.message(`§7[§9OAC§7] §cYou are clicking to fast! Please click slower`)
         log.set("cps", cps.map(e => e - 1).filter(e => e !== 0))
     }
 })

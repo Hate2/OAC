@@ -10,7 +10,14 @@
 //
 import { world } from "mojang-minecraft";
 import { nameRegex } from './globalVars.js';
-import { banPlayer, isAdmin } from "./utils.js";
+import { banPlayer, isAdmin, broadcastMessage, setTickTimeout, onPlayerJoin } from "./utils.js";
+
+onPlayerJoin(player => {
+    player.nameTag = "test"
+    player.nameTag = player.nameTag.replace(/[^A-Za-z0-9_\-() ]/gm, "");
+    broadcastMessage("§7[§9OAC§7] §3This realm is protected by OAC", player)
+})
+
 world.events.tick.subscribe(({ currentTick }) => {
     if (currentTick % 20 !== 0)
         return;
@@ -18,15 +25,15 @@ world.events.tick.subscribe(({ currentTick }) => {
     players.forEach((player) => {
         if (isAdmin(player))
             return;
-        if (illegalName(player))
-            banPlayer(player, "You are not allowed to namespoof!");
+        if (illegalName(player)) banPlayer(player, "namespoofing")
     });
 });
-function illegalName({ nameTag }) {
-    if (nameTag.length > 20 || nameTag.length < 1)
+
+function illegalName({ name }) {
+    if (name.length > 20 || name.length < 1)
         return true;
-    for (let i = 0; i < nameTag.length + 1; i++)
-        if (!nameRegex.test(nameTag))
+    for (let i = 0; i < name.length + 1; i++)
+        if (!nameRegex.test(name[i]))
             return true;
     return false;
 }

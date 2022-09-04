@@ -1,9 +1,0 @@
-{
-    "name": "odin-anti-cheat",
-    "version": "1.0.0",
-    "description": "Stop hackers with OAC",
-    "author": "Odin Network",
-    "dependencies": {
-        "@types/mojang-minecraft": "^0.1.4"
-    }
-}

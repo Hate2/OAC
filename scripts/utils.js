@@ -1,14 +1,26 @@
-import { Player, world } from "mojang-minecraft";
+//              _______   _______   _______ 
+//             |   _   | |   _   | |   _   |
+//             |.  |   | |.  1   | |.  1___|
+//             |.  |   | |.  _   | |.  |___ 
+//             |:  1   | |:  |   | |:  1   |
+//             |::.. . | |::.|:. | |::.. . |
+//             `-------' `--- ---' `-------'
+//              01001111 01000001 01000011 
+//                    - Anti-Cheat -
+
+import { world } from "mojang-minecraft";
+import { Player } from './Api/index.js'
 import { adminScoreboard } from "./globalVars.js";
+
 /**
- * Broadcast a message (or send it to a player)
+ * Broadcast a message
  * @param {string} message Message to broadcast
- * @param {Player|Player[]} player Player(s) to send the message to
  * @example broadcastMessage('This message was sent to everyone!')
  */
-export function broadcastMessage(message, player) {
-    !player ? world.getDimension('overworld').runCommand(`tellraw @a ${JSON.stringify({ rawtext: [{ text: message }] })}`) : player instanceof Player ? player.runCommand(`tellraw @a ${JSON.stringify({ rawtext: [{ text: message }] })}`) : player.forEach(pL => pL.runCommand(`tellraw @a ${JSON.stringify({ rawtext: [{ text: message }] })}`));
+export function broadcastMessage(message) {
+    world.getDimension('overworld').runCommand(`tellraw @a ${JSON.stringify({ rawtext: [{ text: message }] })}`)
 }
+
 /**
  * Ban a player
  * @param {Player} player Player to ban
@@ -16,22 +28,20 @@ export function broadcastMessage(message, player) {
  * @example banPlayer(player, "Hacking!")
  */
 export function banPlayer(player, reason) {
-    player.runCommand(`kick "${player.name}" §7[§9OAC§7] §3${reason ?? "You were banned for hacking!"}`);
-    broadcastMessage(`§7[§9OAC§7] §3${player.name} was banned${reason ? ` due to: ${reason}` : `!`}`);
+    broadcastMessage(`§7[§9OAC§7] §c${JSON.stringify(player.getName()).slice(1, -1)} was banned${reason ? ` due to: §3${reason}` : `!`}`)
+    if (player.kick(`§7[§9OAC§7] §cYou have been banned!\n§3Reason: ${reason ?? "No reason specified!"}`)) player.runCommand(`event entity @s oac:kick`)
+    // player?.runCommand(`tp @s 9999999 9999999 9999999`)
 }
+
 /**
  * Test for whether or not a player is an admin
  * @param {Player} player Player to test with
  * @returns {boolean} Whether or not they are admin
  */
 export function isAdmin(player) {
-    try {
-        return world.scoreboard.getObjective(adminScoreboard).getScore(player.scoreboard) === 0 ? false : true;
-    }
-    catch {
-        return false;
-    }
+    return player.getScore(adminScoreboard, true) === 0 ? false : true
 }
+
 /**
  * Delay executing a function
  * @param {() => void} callback Code you want to execute when the delay is finished
@@ -41,22 +51,35 @@ export function isAdmin(player) {
  * console.warn(`This was called after 20 ticks!`)
  * }, 20)
  */
-export function setTickTimeout(callback, tick, loop) {
-    let cT = 0;
+export function setTickTimeout(callback, tick, loop = false) {
+    let cT = 0
     const tE = world.events.tick.subscribe((data) => {
-        if (cT === 0)
-            cT = data.currentTick + tick;
+        if (cT === 0) cT = data.currentTick + tick
         if (cT <= data.currentTick) {
-            try {
-                callback();
-            }
-            catch (e) {
-                console.warn(`${e} : ${e.stack}`);
-            }
-            if (loop)
-                cT += tick;
-            else
-                world.events.tick.unsubscribe(tE);
+            try { callback() } catch (e) { console.warn(`${e} : ${e.stack}`) }
+            if (loop) cT += tick
+            else world.events.tick.unsubscribe(tE)
         }
-    });
+    })
 }
+
+world.events.worldInitialize.subscribe(() => { for (const pL of world.getPlayers()) pNA.push(pL.name) })
+
+/**
+ * Run code when a player joins
+ * @param {(player: Player) => void} callback Code to run when a player joins
+ * @example onPlayerJoin(player => {
+ * console.warn(player.name)
+ * })
+ */
+export function onPlayerJoin(callback) {
+    if (jT) throw new Error(`There can only be 1 onPlayerJoin callback!`)
+    jT = true
+    world.events.tick.subscribe(() => {
+        for (const pL of world.getPlayers()) if (!pNA.includes((pL.name))) { pNA.push(pL.name); callback(new Player(pL)); }
+    })
+    world.events.playerLeave.subscribe(({ playerName }) => pNA.splice(pNA.findIndex(pL => pL === playerName), 1))
+}
+
+const pNA = []
+let jT = false

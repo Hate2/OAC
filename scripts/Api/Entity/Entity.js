@@ -528,7 +528,7 @@ export class Player extends Entity {
      * @param {string} reason The reason they got kicked
      */
     kick(reason) {
-        this.entity.runCommand(`kick "${this.entity.name}" ${reason ?? ''}`);
+        this.runCommand(`kick "${this.entity.name}" ${reason ?? ''}`);
     }
     /**
      * Message the player

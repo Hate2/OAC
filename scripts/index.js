@@ -9,13 +9,14 @@
 //                    - Anti-Cheat -
 
 import { system } from 'mojang-minecraft';
-import { Client } from './Api/index.js'
+import { Client, broadcastMessage } from './Api/index.js'
 import { nameRegex, illegalItems, adminScoreboard } from './globalVars.js'
 import { banPlayer, isAdmin, onPlayerJoin } from "./utils.js";
 
 const client = new Client({ command: { enabled: false } })
 
 onPlayerJoin(player => {
+    player.getLog().set("cps", [])
     player.setNameTag(player.getNameTag().replace(/[^A-Za-z0-9_\-() ]/gm, ""))
     player.message("§7[§9OAC§7] §3This realm is protected by OAC")
 })
@@ -31,16 +32,31 @@ client.on("ItemUseOn", ({ item, cancel, entity }) => {
     if (illegalItems.includes(item.getId()) && !isAdmin(entity)) cancel()
 })
 
-client.on("EntityHit", (data) => {
-    if (!data.entity.isPlayer() || isAdmin(data.entity)) return
-    const log = data.entity.getLog()
+client.on("EntityHit", ({ entity }) => {
+    if (!entity.isPlayer() || isAdmin(entity)) return
+    const log = entity.getLog()
     const arr = (log.get("cps") ?? [])
-    arr.push(20)
+    arr.push(10)
     log.set("cps", arr)
 })
 
-client.on("WorldLoad", () => {
+client.on("BlockHit", ({ entity }) => {
+    if (!entity.isPlayer() || isAdmin(entity)) return
+    const log = entity.getLog()
+    const arr = (log.get("cps") ?? [])
+    arr.push(10)
+    log.set("cps", arr)
+})
+
+client.on("Chat", ({ player, cancel }) => {
+    
+})
+
+client.on("WorldLoad", (world) => {
     client.runCommand(`scoreboard objectives add ${adminScoreboard} dummy`)
+    world.getAllPlayers().forEach(player => {
+        player.getLog().set("cps", [])
+    })
 })
 
 client.on("Tick", (currentTick) => {
@@ -49,6 +65,16 @@ client.on("Tick", (currentTick) => {
     for (const player of players) {
         if (isAdmin(player)) continue
         const log = player.getLog()
+        /**
+         * @type {number[]}
+         */
+        const cps = log.get("cps")
+        if (cps.length > 15) player.message(`§7[§9OAC§7] §cYou are clicking to fast! Please click slower`)
+        if (cps.length >= 25) {
+            player.kick(`\n§7[§9OAC§7] §cYou are clicking to fast! Please consider clicking slower if you wish to keep playing`)
+            broadcastMessage(`§7[§9OAC§7] §c${player.getName()} was kicked due to: §3Clicking to fast (25 cps or higher)`)
+        }
+        log.set("cps", cps.map(e => e - 1).filter(e => e !== 0))
         if (illegalName(player)) {
             banPlayer(player, "Namespoofing")
             continue

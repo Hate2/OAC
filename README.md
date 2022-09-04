@@ -2,17 +2,17 @@
 # OAC (Odin Anti Cheat)
 OAC is a Minecraft bedrock anti cheat that is made for realms.
 
-##Features<br/>
-★ Anti 32k
-★ Anti CBE
-★ Anti Killaura
-★ Anti Autoclicker
-★ Anti Namespoof
-★ Chat Filter
+##Features<br>
+★ Anti 32k<br>
+★ Anti CBE<br>
+★ Anti Killaura<br>
+★ Anti Autoclicker<br>
+★ Anti Namespoof<br>
+★ Chat Filter<br>
 
-##Coming Soon<br/>
-★ Anti Fly
-★ Anti Noclip
-★ Anti Nuker
-★ Anti dupe
+##Coming Soon<br>
+★ Anti Fly<br>
+★ Anti Noclip<br>
+★ Anti Nuker<br>
+★ Anti dupe<br>
 ★ And more

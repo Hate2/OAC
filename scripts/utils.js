@@ -1,14 +1,14 @@
-import { Player, world } from "mojang-minecraft";
+import { world } from "mojang-minecraft";
+import { Player } from './Api/index.js'
 import { adminScoreboard } from "./globalVars.js";
 
 /**
- * Broadcast a message (or send it to a player)
+ * Broadcast a message
  * @param {string} message Message to broadcast
- * @param {Player|Player[]} player Player(s) to send the message to
  * @example broadcastMessage('This message was sent to everyone!')
  */
-export function broadcastMessage(message, player) {
-    !player ? world.getDimension('overworld').runCommand(`tellraw @a ${JSON.stringify({ rawtext: [{ text: message }] })}`) : player instanceof Player ? player.runCommand(`tellraw @a ${JSON.stringify({ rawtext: [{ text: message }] })}`) : player.forEach(pL => pL.runCommand(`tellraw @a ${JSON.stringify({ rawtext: [{ text: message }] })}`));
+export function broadcastMessage(message) {
+    world.getDimension('overworld').runCommand(`tellraw @a ${JSON.stringify({ rawtext: [{ text: message }] })}`)
 }
 
 /**
@@ -18,10 +18,10 @@ export function broadcastMessage(message, player) {
  * @example banPlayer(player, "Hacking!")
  */
 export function banPlayer(player, reason) {
-    broadcastMessage(`§7[§9OAC§7] §3${player.name} was banned${reason ? ` due to: ${reason}` : `!`}`);
+    broadcastMessage(`§7[§9OAC§7] §c${player.getName()} was banned${reason ? ` due to: §3${reason}` : `!`}`)
     try {
-        player.runCommand(`kick "${player.name}" §7[§9OAC§7] §3${reason ?? "You were banned for hacking!"}`);
-    } catch { 
+        player.runCommand(`kick "${player.name}" §7[§9OAC§7] §cYou have been banned!\n§3Reason: ${reason ?? "No reason specified!"}`)
+    } catch {
         player.runCommand(`event entity @s oac:kick`)
     } finally {
         player?.runCommand(`tp @s 9999999 9999999 9999999`)
@@ -34,12 +34,7 @@ export function banPlayer(player, reason) {
  * @returns {boolean} Whether or not they are admin
  */
 export function isAdmin(player) {
-    try {
-        return world.scoreboard.getObjective(adminScoreboard).getScore(player.scoreboard) === 0 ? false : true;
-    }
-    catch {
-        return false;
-    }
+    return player.getScore(adminScoreboard, true) === 0 ? false : true
 }
 
 /**
@@ -76,7 +71,7 @@ export function onPlayerJoin(callback) {
     if (jT) throw new Error(`There can only be 1 onPlayerJoin callback!`)
     jT = true
     world.events.tick.subscribe(() => {
-        for (const pL of world.getPlayers()) if (!pNA.includes((pL.name))) { pNA.push(pL.name); callback(pL); }
+        for (const pL of world.getPlayers()) if (!pNA.includes((pL.name))) { pNA.push(pL.name); callback(new Player(pL)); }
     })
     world.events.playerLeave.subscribe(({ playerName }) => pNA.splice(pNA.findIndex(pL => pL === playerName), 1))
 }

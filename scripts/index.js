@@ -34,6 +34,7 @@ onPlayerJoin(player => {
     log.set("cps", [])
     log.set("killaura", [])
     log.set("gamemode", "survival")
+    log.set("pos", player.getLocation())
 
     //Anti Namespoof
     if (illegalName(player)) {
@@ -95,6 +96,7 @@ client.on("WorldLoad", (world) => {
         log.set("cps", [])
         log.set("killaura", [])
         log.set("gamemode", "survival")
+        log.set("pos", player.getLocation())
     })
 })
 
@@ -105,6 +107,11 @@ client.on("Tick", (currentTick) => {
 
         //Admin bypass
         if (isAdmin(player)) continue
+
+        //Small stuff
+        if (player.getSelectedSlot() > 8 || player.getSelectedSlot() < 0) banPlayer(player, `Bad packets`)
+
+        //Inventory stuff
         const inv = player.getInventory(), { size } = inv
         for (let i = 0; i < size; i++) {
             const item = inv.getItem(i)
@@ -153,10 +160,21 @@ client.on("Tick", (currentTick) => {
         if (killaura.length >= 10) banPlayer(player, `Using Killaura`)
 
         //Debug UI
-        player.getScreenDisplay().setActionBar(`Position: ${Math.floor(player.getLocation().x)} ${Math.floor(player.getLocation().y)} ${Math.floor(player.getLocation().z)}\nCps: ${cps.length}\nBlock: ${(function () { const block = player.getBlockFromViewVector(); return block.getId()?.split(":")[1]?.split(/_/g)?.map(e => e.charAt(0).toUpperCase() + e.slice(1))?.join(' ') ?? "Nothing" }())}\nEntity: ${(function () { const block = player.getEntitiesFromViewVector()[0]; return block?.getId()?.split(":")[1]?.split(/_/g)?.map(e => e.charAt(0).toUpperCase() + e.slice(1))?.join(' ') ?? "Nothing" }())}`)
+        player.getScreenDisplay().setActionBar(`Position: ${Math.floor(player.getLocation().x)} ${Math.floor(player.getLocation().y)} ${Math.floor(player.getLocation().z)}\nCps: ${cps.length}\nBlock: ${(function () { const block = player.getBlockFromViewVector(); return block.getId()?.split(":")[1]?.split(/_/g)?.map(e => e.charAt(0).toUpperCase() + e.slice(1))?.join(' ') ?? "Nothing" }())}\nEntity: ${(function () { const block = player.getEntitiesFromViewVector()[0]; return block?.getId()?.split(":")[1]?.split(/_/g)?.map(e => e.charAt(0).toUpperCase() + e.slice(1))?.join(' ') ?? "Nothing" }())}\nVecX: ${player.getVelocity().x.toFixed(2)}`)
 
         //Anti Killaura 1.5
         log.set("killaura", killaura.map(e => e - 1).filter(e => e !== 0))
+
+        //Anti Fly
+        const [location, velocity] = [player.getLocation(), player.getVelocity()]
+        const pos = log.get("pos")
+        const [x, y, z] = [Math.max(location.x, pos.x) - Math.min(location.x, pos.x), Math.max(location.y, pos.y) - Math.min(location.y, pos.y), Math.max(location.z, pos.z) - Math.min(location.z, pos.z)]
+        const speedMult = (0.2 * (player.getEffect("speed")?.amplifier ?? 0))
+        if (((x > (1.3 + speedMult) && velocity.x !== 0) || (z > (1.3 + speedMult) && velocity.z !== 0)) && player.runCommand(`testfor @s[hasitem={item=elytra,slot=0,location=slot.armor.chest}]`).error) banPlayer(player, "Using speed hacks")
+        if (z > (1.3 + speedMult) && velocity.z !== 0) banPlayer(player, "Using speed hacks")
+
+
+        log.set("pos", location)
 
         //Anti Autoclicker 1
         if (cps.length >= 25) {

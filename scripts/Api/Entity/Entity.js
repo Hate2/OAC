@@ -569,9 +569,8 @@ export class Player extends Entity {
                 return { error: false, data: this.entity.runCommand(command) };
             data.callback({ player: this, args });
             return { error: false };
-        }
-        catch {
-            return { error: true };
+        } catch (e) {
+            return { error: true, data: e };
         }
     }
 }

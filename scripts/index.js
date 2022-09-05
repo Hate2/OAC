@@ -35,6 +35,8 @@ onPlayerJoin(player => {
     log.set("killaura", [])
     log.set("gamemode", "survival")
     log.set("pos", player.getLocation())
+    log.set("wasHit", 0)
+    log.set("speedFlags", 0)
 
     //Anti Namespoof
     if (illegalName(player)) {
@@ -43,7 +45,7 @@ onPlayerJoin(player => {
     player.setNameTag(player.getNameTag().replace(/[^A-Za-z0-9_\-() ]/gm, ""))
 
     //OAC clout
-    player.message("§7[§9OAC§7] §3This realm is protected by OAC")
+    player.message("§7[§9OAC§7] §3This world is protected by OAC")
 })
 
 function illegalName(e) {
@@ -69,20 +71,27 @@ client.on("ItemUseOn", ({ item, cancel, entity }) => {
 })
 
 client.on("EntityHit", ({ entity, hitEntity }) => {
+    //Anti Speed
+    if (hitEntity.isPlayer()) hitEntity.getLog().set("wasHit", 5)
+
     if (!entity.isPlayer() || isAdmin(entity)) return
+    const log = entity.getLog()
 
     //CPS Counter
-    const log = entity.getLog()
     const arr = (log.get("cps") ?? [])
     arr.push(11)
     log.set("cps", arr)
 
     //Killaura flags
-    if (!hitEntity.isPlayer() && entity.getEntitiesFromViewVector()[0]?.getId() !== hitEntity.getId()) {
+    if (hitEntity.isPlayer() && entity.getEntitiesFromViewVector()[0]?.getId() !== hitEntity.getId()) {
         const arr = (log.get("killaura") ?? [])
         arr.push(10)
         log.set("killaura", arr)
     }
+})
+
+client.on("ProjectileHit", ({ hitEntity }) => {
+    if (hitEntity?.isPlayer()) hitEntity.getLog().set("wasHit", 5)
 })
 
 client.on("WorldLoad", (world) => {
@@ -97,10 +106,22 @@ client.on("WorldLoad", (world) => {
         log.set("killaura", [])
         log.set("gamemode", "survival")
         log.set("pos", player.getLocation())
+        log.set("wasHit", 0)
+        log.set("speedFlags", 0)
     })
 })
 
 client.on("Tick", (currentTick) => {
+    //Speed ban
+    if (currentTick % 400 == 0) {
+        const players = client.world.getAllPlayers()
+        for (const player of players) {
+            const log = player.getLog()
+            if(log.get("speedFlags") >=3) banPlayer(player, "Speed hacking")
+            if(log.get("speedFlags") != 0) log.set("speedFlags", 0)
+        }
+    }
+
     if (currentTick % 2 !== 0) return
     const players = client.world.getAllPlayers()
     for (const player of players) {
@@ -109,7 +130,9 @@ client.on("Tick", (currentTick) => {
         if (isAdmin(player)) continue
 
         //Small stuff
-        if (player.getSelectedSlot() > 8 || player.getSelectedSlot() < 0) banPlayer(player, `Bad packets`)
+        if (player.getSelectedSlot() > 8 || player.getSelectedSlot() < 0) {
+            banPlayer(player, `Bad packets`)
+        }
 
         //Inventory stuff
         const inv = player.getInventory(), { size } = inv
@@ -165,15 +188,16 @@ client.on("Tick", (currentTick) => {
         //Anti Killaura 1.5
         log.set("killaura", killaura.map(e => e - 1).filter(e => e !== 0))
 
-        //Anti Fly
+        //Anti Speed    
         const [location, velocity] = [player.getLocation(), player.getVelocity()]
         const pos = log.get("pos")
         const [x, y, z] = [Math.max(location.x, pos.x) - Math.min(location.x, pos.x), Math.max(location.y, pos.y) - Math.min(location.y, pos.y), Math.max(location.z, pos.z) - Math.min(location.z, pos.z)]
         const speedMult = (0.2 * (player.getEffect("speed")?.amplifier ?? 0))
-        if (((x > (1.3 + speedMult) && velocity.x !== 0) || (z > (1.3 + speedMult) && velocity.z !== 0)) && player.runCommand(`testfor @s[hasitem={item=elytra,slot=0,location=slot.armor.chest}]`).error) banPlayer(player, "Using speed hacks")
-        if (z > (1.3 + speedMult) && velocity.z !== 0) banPlayer(player, "Using speed hacks")
-
-
+        if (!player.runCommand(`testfor @s[hasitem={item=elytra,slot=0,location=slot.armor.chest}]`).error) log.set("wasHit", 10)
+        let hit = (log.get("wasHit") ?? 1)
+        if (((x > (1.6 + speedMult) && velocity.x !== 0) || (z > (1.3 + speedMult) && velocity.z !== 0)) && hit === 0 && !player.getEffect("poison") && !player.getEffect("wither") && !player.isOnFire() && !player.getDimension().getEntities({location: player.getLocation(), maxDistance: 5, excludeTypes: ["player"]}).find(e => e.hasComponent("rideable"))) log.set("speedFlags", log.get("speedFlags")+1)
+        hit--
+        log.set("wasHit", hit < 0 ? 0 : hit)
         log.set("pos", location)
 
         //Anti Autoclicker 1

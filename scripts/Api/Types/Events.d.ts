@@ -130,6 +130,51 @@ export declare type Events = {
          */
         log: PlayerLog;
     };
+    ProjectileHit: {
+        /**
+         * The entity that shot the projectile
+         */
+        entity: Entity;
+        /**
+         * The entity that was hit
+         * @remarks There could be no hitEntity
+         */
+        hitEntity?: Entity;
+        /**
+         * Details relating to the block that was hit
+         * @remarks There could be no hitBlock
+         */
+        hitBlock?: {
+            /**
+             * The block that was hit
+             */
+            block: Block;
+            /**
+             * The face of the block that was hit
+             */
+            face: Direction;
+            /**
+             * The X location of where the projectile hit on the face of the block
+             */
+            faceLocationX: number;
+            /**
+             * The Y location of where the projectile hit on the face of the block
+             */
+            faceLocationY: number;
+        };
+        /**
+         * The projectile that was shot
+         */
+        projectile: Entity;
+        /**
+         * The hit vector
+         */
+        hitVector: Vector;
+        /**
+         * The location of the projectile
+         */
+        location: Location;
+    };
     /**
      * The current tick (kinda like Date.now() but ticks)
      */

@@ -29,7 +29,8 @@ export function broadcastMessage(message) {
  */
 export function banPlayer(player, reason) {
     broadcastMessage(`§7[§9OAC§7] §c${JSON.stringify(player.getName()).slice(1, -1)} was banned${reason ? ` due to: §3${reason}` : `!`}`)
-    if (player.kick(`§7[§9OAC§7] §cYou have been banned!\n§3Reason: ${reason ?? "No reason specified!"}`)) player.runCommand(`event entity @s oac:kick`)
+    player.kick(`§7[§9OAC§7] §cYou have been banned!\n§3Reason: ${reason ?? "No reason specified!"}`)
+    //player.runCommand(`event entity @s oac:kick`)
     // player?.runCommand(`tp @s 9999999 9999999 9999999`)
 }
 

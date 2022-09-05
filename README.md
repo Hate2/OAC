@@ -12,9 +12,9 @@ OAC is a Minecraft bedrock anti cheat that is made for realms.
 ★ Anti Speed<br>
 ★ Chat Filter<br>
 ★ Anti Noclip<br>
+★ Anti Nuker<br>
 ★ And more<br>
 
 ## Coming Soon<br>
-★ Anti Nuker<br>
 ★ Anti dupe<br>
 ★ And more

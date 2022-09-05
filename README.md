@@ -23,7 +23,7 @@ OAC is a Minecraft bedrock anti cheat that is made for realms.<br>
 ★ And more<br>
 
 ## <img src="https://cdn.discordapp.com/attachments/781201377455767582/1016464955307987064/1824b8a5e53ba2e5c63bc0312f00ff53ae354583da39a3ee5e6b4b0d3255bfef95601890afd80709da39a3ee5e6b4b0d3255bfef95601890afd8070955cfa57ca9095705b0b1dc394fa5c1db.png">
-★ Next Update mod menu  ( owners have permissions to change )<br>
+★ Mod menu<br>
 ★ Default Gamemode<br>
 ★ Selected Gamerules<br>
 ★ Addable Bann-able items/block<br>

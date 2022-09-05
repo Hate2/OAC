@@ -41,6 +41,7 @@ onPlayerJoin(player => {
     log.set("pos", player.getLocation())
     log.set("wasHit", 0)
     log.set("speedFlags", 0)
+    log.set("brokenBlocks", 0)
 
     //Anti Namespoof
     if (illegalName(player)) {
@@ -112,16 +113,27 @@ client.on("WorldLoad", (world) => {
         log.set("pos", player.getLocation())
         log.set("wasHit", 0)
         log.set("speedFlags", 0)
+        log.set("brokenBlocks", 0)
     })
+})
+
+//Anti Nuker
+client.on("BlockBreak", (block) => {
+    const log = block.player.getLog()
+    log.set("brokenBlocks", log.get("brokenBlocks")+1)
+    if(log.get("brokenBlocks") > 5) {
+        block.cancel()
+    }
 })
 
 client.on("Tick", (currentTick) => {
     //Speed ban
     if (currentTick % 400 == 0) {
+        
         const players = client.world.getAllPlayers()
         for (const player of players) {
             const log = player.getLog()
-            if(log.get("speedFlags") >=3) banPlayer(player, "Speed hacking")
+            if(log.get("speedFlags") >=3 && !isAdmin(player)) banPlayer(player, "Speed hacking")
             if(log.get("speedFlags") != 0) log.set("speedFlags", 0)
         }
     }
@@ -137,6 +149,7 @@ client.on("Tick", (currentTick) => {
         if (player.getSelectedSlot() > 8 || player.getSelectedSlot() < 0) {
             banPlayer(player, `Bad packets`)
         }
+
 
         //Inventory stuff
         const inv = player.getInventory(), { size } = inv
@@ -182,6 +195,13 @@ client.on("Tick", (currentTick) => {
         const log = player.getLog()
         const cps = log.get("cps")
         const killaura = log.get("killaura")
+
+        //Anti Nuker
+        if(log.get("brokenBlocks") > 5) {
+            banPlayer(player, "Using nuker")
+        }
+        log.set("brokenBlocks", 0)
+
 
         //Anti Killaura
         if (killaura.length >= 10) banPlayer(player, `Using Killaura`)

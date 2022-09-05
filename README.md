@@ -2,7 +2,6 @@
 # OAC (Odin Anti Cheat)
 OAC is a Minecraft bedrock anti cheat that is made for realms.<br>
 <div align="center">
-  <img src="https://www.codefactor.io/repository/github/Hate2/OAC/badge/main" alt="Grade"/>
   <img src="https://img.shields.io/github/downloads/Hate2/OAC/total?style=plastic&logo=appveyor" alt="Downloads"/>
   <img src="https://img.shields.io/github/commit-activity/m/Hate2/OAC?style=plastic&logo=appveyor" alt="Commits Per Month"/>
   <img src="https://img.shields.io/github/last-commit/Hate2/OAC?style=plastic&logo=appveyor" alt="Last Commit"/>

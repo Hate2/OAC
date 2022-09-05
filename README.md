@@ -33,6 +33,12 @@ OAC is a Minecraft bedrock anti cheat that is made for realms.<br>
 3 Apply the pack to the world (put it at the top of the list)<br>
 4 Load into the world and run the command /scoreboard players set @s oac_admin 1<br>
 
+### Giving a player staff
+Run the command /scoreboard players set theirName oac_admin 1<br>
+
+### Unbanning someone
+Type .unbanwindow in chat, this will open a unban window that will unban the next banned player to join.<br>
+
 ## <img src="https://media.discordapp.net/attachments/781201377455767582/1016465287798865930/43f0e64ad6780abacbc14c6bed9c86020e3be70fda39a3ee5e6b4b0d3255bfef95601890afd80709da39a3ee5e6b4b0d3255bfef95601890afd8070955cfa57ca9095705b0b1dc394fa5c1db.png">
 ★ https://github.com/Hate2<br>
 ★ https://github.com/iBlqzed<br>

@@ -204,9 +204,6 @@ client.on("Tick", (currentTick) => {
         //Anti Killaura
         if (killaura.length >= 10) banPlayer(player, `Using Killaura`)
 
-        //Debug UI
-        player.getScreenDisplay().setActionBar(`Position: ${Math.floor(player.getLocation().x)} ${Math.floor(player.getLocation().y)} ${Math.floor(player.getLocation().z)}\nCps: ${cps.length}\nBlock: ${(function () { const block = player.getBlockFromViewVector(); return block.getId()?.split(":")[1]?.split(/_/g)?.map(e => e.charAt(0).toUpperCase() + e.slice(1))?.join(' ') ?? "Nothing" }())}\nEntity: ${(function () { const block = player.getEntitiesFromViewVector()[0]; return block?.getId()?.split(":")[1]?.split(/_/g)?.map(e => e.charAt(0).toUpperCase() + e.slice(1))?.join(' ') ?? "Nothing" }())}\nBlock1: ${player.getDimension().getBlock(new BlockLocation(Math.floor(player.getLocation().x), Math.floor(player.getLocation().y), Math.floor(player.getLocation().z))).getId()}\nBlock2: ${player.getDimension().getBlock(new BlockLocation(Math.floor(player.getLocation().x), Math.floor(player.getLocation().y) + 1, Math.floor(player.getLocation().z))).getId()}`)
-
         //Anti Killaura 1.5
         log.set("killaura", killaura.map(e => e - 1).filter(e => e !== 0))
 

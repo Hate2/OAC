@@ -103,3 +103,29 @@ export const illegalItems = [
     "minecraft:melon_stem",
     "minecraft:pumpkin_stem"
 ]
+
+export const notFullBlocks = [
+    "minecraft:air",
+    "minecraft:red_flower",
+    "minecraft:yellow_flower",
+    "minecraft:tallgrass",
+    "minecraft:water",
+    "minecraft:lava",
+    "minecraft:tripwire_hook",
+    "minecraft:string",
+    "minecraft:double_plant",
+    "minecraft:flower_pot",
+    "minecraft:web",
+    "minecraft:seagrass",
+    "minecraft:sand",
+    "minecraft:gravel"
+]
+
+export const notFullBlocksIncludes = [
+    "stairs",
+    "door",
+    "coral",
+    "chest",
+    "slab",
+    "concrete_powder"
+]

@@ -8,15 +8,19 @@
 //              01001111 01000001 01000011 
 //                    - Anti-Cheat -
 
-import { system } from 'mojang-minecraft';
+import { system, BlockLocation } from 'mojang-minecraft';
 import { Client, broadcastMessage } from './Api/index.js'
-import { nameRegex, illegalItems, adminScoreboard, config, bannedMessages } from './globalVars.js'
+import { nameRegex, illegalItems, adminScoreboard, config, bannedMessages, notFullBlocks, notFullBlocksIncludes } from './globalVars.js'
 import { banPlayer, isAdmin, onPlayerJoin } from "./utils.js";
 
 const client = new Client({ command: { enabled: false } })
 
 client.on("Chat", ({ player, message, cancel }) => {
+
+    //Anti Bad Packets
     if (message.length > 200 || message.length === 0) return cancel()
+    
+    //Chat Filter
     if (message.toUpperCase() === message && message.length > 4) {
         cancel()
         return player.message(`§7[§9OAC§7] §cMessages are not allowed to be in all caps!`)
@@ -183,7 +187,26 @@ client.on("Tick", (currentTick) => {
         if (killaura.length >= 10) banPlayer(player, `Using Killaura`)
 
         //Debug UI
-        player.getScreenDisplay().setActionBar(`Position: ${Math.floor(player.getLocation().x)} ${Math.floor(player.getLocation().y)} ${Math.floor(player.getLocation().z)}\nCps: ${cps.length}\nBlock: ${(function () { const block = player.getBlockFromViewVector(); return block.getId()?.split(":")[1]?.split(/_/g)?.map(e => e.charAt(0).toUpperCase() + e.slice(1))?.join(' ') ?? "Nothing" }())}\nEntity: ${(function () { const block = player.getEntitiesFromViewVector()[0]; return block?.getId()?.split(":")[1]?.split(/_/g)?.map(e => e.charAt(0).toUpperCase() + e.slice(1))?.join(' ') ?? "Nothing" }())}\nVecX: ${player.getVelocity().x.toFixed(2)}`)
+        player.getScreenDisplay().setActionBar(`Position: ${Math.floor(player.getLocation().x)} ${Math.floor(player.getLocation().y)} ${Math.floor(player.getLocation().z)}\nCps: ${cps.length}\nBlock: ${(function () { const block = player.getBlockFromViewVector(); return block.getId()?.split(":")[1]?.split(/_/g)?.map(e => e.charAt(0).toUpperCase() + e.slice(1))?.join(' ') ?? "Nothing" }())}\nEntity: ${(function () { const block = player.getEntitiesFromViewVector()[0]; return block?.getId()?.split(":")[1]?.split(/_/g)?.map(e => e.charAt(0).toUpperCase() + e.slice(1))?.join(' ') ?? "Nothing" }())}\nBlock1: ${player.getDimension().getBlock(new BlockLocation(Math.floor(player.getLocation().x), Math.floor(player.getLocation().y), Math.floor(player.getLocation().z))).getId()}\nBlock2: ${player.getDimension().getBlock(new BlockLocation(Math.floor(player.getLocation().x), Math.floor(player.getLocation().y) + 1, Math.floor(player.getLocation().z))).getId()}`)
+
+        //Anti Noclip
+        var block1 = player.getDimension().getBlock(new BlockLocation(Math.floor(player.getLocation().x), Math.floor(player.getLocation().y), Math.floor(player.getLocation().z))).getId()
+        var block2 = player.getDimension().getBlock(new BlockLocation(Math.floor(player.getLocation().x), Math.floor(player.getLocation().y) + 1, Math.floor(player.getLocation().z))).getId()
+        if(!notFullBlocks.includes(block1) && !notFullBlocks.includes(block2)) {
+            var test_for_extra_blocks = false
+            notFullBlocksIncludes.forEach(block => {
+                if(block1.includes(block) || block2.includes(block)) {
+                    test_for_extra_blocks = true
+                }
+            })
+            if(test_for_extra_blocks == false){
+                player.runCommand(`tp @s ${log.get("pos").x} ${log.get("pos").y} ${log.get("pos").z}`)
+                player.message("§7[§9OAC§7] §cNo clipping isn’t allowed!")
+                player.runCommand(`playsound random.glass @s ~~~ 1 0.5`)
+                log.set("wasHit",3)
+            }
+
+        }
 
         //Anti Killaura 1.5
         log.set("killaura", killaura.map(e => e - 1).filter(e => e !== 0))

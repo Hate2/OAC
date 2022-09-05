@@ -2,6 +2,8 @@ import { system, BlockLocation } from 'mojang-minecraft';
 import { Client, broadcastMessage, setTickTimeout } from './Api/index.js'
 import { nameRegex, illegalItems, adminScoreboard, config, bannedMessages, notFullBlocks, notFullBlocksIncludes } from './globalVars.js'
 import { banPlayer, isAdmin, onPlayerJoin } from "./utils.js";
+let unbanWindow = false
+
 
 const client = new Client({ command: { enabled: false } })
 
@@ -13,12 +15,21 @@ client.on("Chat", ({ player, message, cancel }) => {
     //Chat Filter
     if (message.toUpperCase() === message && message.length > 4) {
         cancel()
-        return player.message(`§cMessages are not allowed to be in all caps!`)
+        return player.message(`§7[§9OAC§7] §cMessages are not allowed to be in all caps!`)
     }
     for (let i = 0; i < message.length + 1; i++) if (message.includes(bannedMessages[i])) {
         cancel()
-        return player.message(`§cThat message is not allowed (${bannedMessages[i] === "§k" ? "§k1§r§c" : bannedMessages[i]})`)
+        return player.message(`§7[§9OAC§7] §cThat message is not allowed (${bannedMessages[i] === "§k" ? "§k1§r§c" : bannedMessages[i]})`)
     }
+    
+    if(!isAdmin(player)) return
+    if(message == ".unbanwindow") {
+        if(unbanWindow == true) unbanWindow = false
+        else if(unbanWindow == false) unbanWindow = true
+        cancel()
+    }
+    if(unbanWindow == true) player.message(`§7[§9OAC§7] §3The unban window is now open.`)
+    if(unbanWindow == false) player.message(`§7[§9OAC§7] §3The unban window is now closed.`)
 })
 
 onPlayerJoin(player => {
@@ -56,7 +67,7 @@ client.on("ItemUseOn", ({ item, cancel, entity }) => {
             entity.runCommand(`clear @s`)
             banPlayer(entity, `Having a ${item.getId().split(':')[1].replace(/_/g, ' ')}`)
         } else {
-            entity.message(`§cYou are not allowed to have that item!`)
+            entity.message(`§7[§9OAC§7] §cYou are not allowed to have that item!`)
             entity.runCommand(`playsound random.glass @s ~~~ 1 0.5`)
         }
     }
@@ -163,7 +174,7 @@ client.on("Tick", (currentTick) => {
                     player.runCommand(`clear @s`)
                     banPlayer(player, `Having a ${item.getId().split(':')[1].replace(/_/g, ' ')}`)
                 } else {
-                    player.message(`§cYou are not allowed to have that item!`)
+                    player.message(`§7[§9OAC§7] §cYou are not allowed to have that item!`)
                     player.runCommand(`playsound random.glass @s ~~~ 1 0.5`)
                 }
                 continue
@@ -174,17 +185,17 @@ client.on("Tick", (currentTick) => {
             for (const ench of enchList) {
                 if (enchList.slot === 0 && !enchList.canAddEnchantment(ench)) {
                     item.removeEnchant(ench.type.id)
-                    player.message(`§cYou are not allowed to have that enchant!`)
+                    player.message(`§7[§9OAC§7] §cYou are not allowed to have that enchant!`)
                     player.runCommand(`playsound random.glass @s ~~~ 1 0.5`)
                 }
                 if (ench.level > ench.type.maxLevel) {
                     item.removeEnchant(ench.type.id)
-                    player.message(`§cYou are not allowed to have that enchant!`)
+                    player.message(`§7[§9OAC§7] §cYou are not allowed to have that enchant!`)
                     player.runCommand(`playsound random.glass @s ~~~ 1 0.5`)
                 }
                 if (ench.level < 0) {
                     item.removeEnchant(ench.type.id)
-                    player.message(`§cYou are not allowed to have that enchant!`)
+                    player.message(`§7[§9OAC§7] §cYou are not allowed to have that enchant!`)
                     player.runCommand(`playsound random.glass @s ~~~ 1 0.5`)
                 }
             }
@@ -215,7 +226,7 @@ client.on("Tick", (currentTick) => {
         const block2 = dimension.getBlock(new BlockLocation(Math.floor(location.x), Math.floor(location.y) + 1, Math.floor(location.z))).getId()
         if ((!notFullBlocks.includes(block1) && !notFullBlocks.includes(block2)) && !notFullBlocksIncludes.find(e => block1.includes(e) && block2.includes(e))) {
             player.runCommand(`tp @s ${pos.x} ${pos.y} ${pos.z}`)
-            player.message("§cNo clipping isn't allowed!")
+            player.message("§7[§9OAC§7] §cNo clipping isn't allowed!")
             player.runCommand(`playsound random.glass @s ~~~ 1 0.5`)
             log.set("wasHit", 3)
         }
@@ -233,8 +244,8 @@ client.on("Tick", (currentTick) => {
 
         //Anti Autoclicker 1
         if (cps.length >= 25) {
-            player.kick(`\n§cYou are clicking to fast! Please consider clicking slower if you wish to keep playing`)
-            broadcastMessage(`§c${player.getName()} was kicked due to: §3Clicking to fast (25 cps or higher)`)
+            player.kick(`\n§7[§9OAC§7] §cYou are clicking to fast! Please consider clicking slower if you wish to keep playing`)
+            broadcastMessage(`§7[§9OAC§7] §c${player.getName()} was kicked due to: §3Clicking to fast (25 cps or higher)`)
         }
 
         //Trusted tag + Anti Autoclicker 1.5
@@ -246,14 +257,14 @@ client.on("Tick", (currentTick) => {
         //Anti GMC
         if (player.getGamemode() === "creative") {
             player.setGamemode(player.getLog().get("gamemode"))
-            player.message(`§cYou are not allowed to be in creative mode!`)
+            player.message(`§7[§9OAC§7] §cYou are not allowed to be in creative mode!`)
             player.runCommand(`playsound random.glass @s ~~~ 1 0.5`)
         }
         log.set("gamemode", player.getGamemode())
 
         //Anti Anticlicker 2
         if (cps.length > 15) {
-            player.message(`§cYou are clicking to fast! Please click slower`)
+            player.message(`§7[§9OAC§7] §cYou are clicking to fast! Please click slower`)
             player.runCommand(`playsound random.glass @s ~~~ 1 0.5`)
         }
         log.set("cps", cps.map(e => e - 1).filter(e => e !== 0))

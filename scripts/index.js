@@ -11,7 +11,7 @@
 import { system, BlockLocation } from 'mojang-minecraft';
 import { Client, broadcastMessage } from './Api/index.js'
 import { nameRegex, illegalItems, adminScoreboard, config, bannedMessages, notFullBlocks, notFullBlocksIncludes } from './globalVars.js'
-import { banPlayer, isAdmin, onPlayerJoin } from "./utils.js";
+import { banPlayer, isAdmin, onPlayerJoin, setTickTimeout } from "./utils.js";
 
 const client = new Client({ command: { enabled: false } })
 
@@ -50,7 +50,10 @@ onPlayerJoin(player => {
     player.setNameTag(player.getNameTag().replace(/[^A-Za-z0-9_\-() ]/gm, ""))
 
     //OAC clout
-    player.message("§7[§9OAC§7] §3This world is protected by OAC")
+    setTickTimeout(() => {
+        player.message("§7[§9OAC§7] §3This world is protected by OAC")
+        player.runCommand(`playsound note.pling @s`)
+    }, 100)
 })
 
 function illegalName(e) {
@@ -118,32 +121,29 @@ client.on("WorldLoad", (world) => {
 })
 
 //Anti Nuker
-client.on("BlockBreak", (block) => {
-    const log = block.player.getLog()
+client.on("BlockBreak", ({ player, cancel }) => {
+    if (isAdmin(player)) return;
+    const log = player.getLog()
     log.set("brokenBlocks", log.get("brokenBlocks")+1)
     if(log.get("brokenBlocks") > 5) {
-        block.cancel()
+        cancel()
     }
 })
 
 client.on("Tick", (currentTick) => {
-    //Speed ban
-    if (currentTick % 400 == 0) {
-        
-        const players = client.world.getAllPlayers()
-        for (const player of players) {
-            const log = player.getLog()
-            if(log.get("speedFlags") >=3 && !isAdmin(player)) banPlayer(player, "Speed hacking")
-            if(log.get("speedFlags") != 0) log.set("speedFlags", 0)
-        }
-    }
-
     if (currentTick % 2 !== 0) return
     const players = client.world.getAllPlayers()
     for (const player of players) {
-
+        
         //Admin bypass
         if (isAdmin(player)) continue
+
+        //Anti Speed 1
+        if (currentTick % 400 === 0) {
+            const log = player.getLog()
+            if (log.get("speedFlags") >= 3) banPlayer(player, "Speed hacking")
+            if (log.get("speedFlags") !== 0) log.set("speedFlags", 0)
+        }
 
         //Small stuff
         if (player.getSelectedSlot() > 8 || player.getSelectedSlot() < 0) {
@@ -209,31 +209,23 @@ client.on("Tick", (currentTick) => {
         //Debug UI
         player.getScreenDisplay().setActionBar(`Position: ${Math.floor(player.getLocation().x)} ${Math.floor(player.getLocation().y)} ${Math.floor(player.getLocation().z)}\nCps: ${cps.length}\nBlock: ${(function () { const block = player.getBlockFromViewVector(); return block.getId()?.split(":")[1]?.split(/_/g)?.map(e => e.charAt(0).toUpperCase() + e.slice(1))?.join(' ') ?? "Nothing" }())}\nEntity: ${(function () { const block = player.getEntitiesFromViewVector()[0]; return block?.getId()?.split(":")[1]?.split(/_/g)?.map(e => e.charAt(0).toUpperCase() + e.slice(1))?.join(' ') ?? "Nothing" }())}\nBlock1: ${player.getDimension().getBlock(new BlockLocation(Math.floor(player.getLocation().x), Math.floor(player.getLocation().y), Math.floor(player.getLocation().z))).getId()}\nBlock2: ${player.getDimension().getBlock(new BlockLocation(Math.floor(player.getLocation().x), Math.floor(player.getLocation().y) + 1, Math.floor(player.getLocation().z))).getId()}`)
 
-        //Anti Noclip
-        var block1 = player.getDimension().getBlock(new BlockLocation(Math.floor(player.getLocation().x), Math.floor(player.getLocation().y), Math.floor(player.getLocation().z))).getId()
-        var block2 = player.getDimension().getBlock(new BlockLocation(Math.floor(player.getLocation().x), Math.floor(player.getLocation().y) + 1, Math.floor(player.getLocation().z))).getId()
-        if(!notFullBlocks.includes(block1) && !notFullBlocks.includes(block2)) {
-            var test_for_extra_blocks = false
-            notFullBlocksIncludes.forEach(block => {
-                if(block1.includes(block) || block2.includes(block)) {
-                    test_for_extra_blocks = true
-                }
-            })
-            if(test_for_extra_blocks == false){
-                player.runCommand(`tp @s ${log.get("pos").x} ${log.get("pos").y} ${log.get("pos").z}`)
-                player.message("§7[§9OAC§7] §cNo clipping isn’t allowed!")
-                player.runCommand(`playsound random.glass @s ~~~ 1 0.5`)
-                log.set("wasHit",3)
-            }
-
-        }
-
         //Anti Killaura 1.5
         log.set("killaura", killaura.map(e => e - 1).filter(e => e !== 0))
 
-        //Anti Speed    
+        //Anti Noclip
         const [location, velocity] = [player.getLocation(), player.getVelocity()]
         const pos = log.get("pos")
+        const dimension = player.getDimension()
+        const block1 = dimension.getBlock(new BlockLocation(Math.floor(location.x), Math.floor(location.y), Math.floor(location.z))).getId()
+        const block2 = dimension.getBlock(new BlockLocation(Math.floor(location.x), Math.floor(location.y) + 1, Math.floor(location.z))).getId()
+        if ((!notFullBlocks.includes(block1) && !notFullBlocks.includes(block2)) && !notFullBlocksIncludes.find(e => block1.includes(e) && block2.includes(e))) {
+            player.runCommand(`tp @s ${pos.x} ${pos.y} ${pos.z}`)
+            player.message("§7[§9OAC§7] §cNo clipping isn't allowed!")
+            player.runCommand(`playsound random.glass @s ~~~ 1 0.5`)
+            log.set("wasHit",3)
+        }
+
+        //Anti Speed 1.5
         const [x, y, z] = [Math.max(location.x, pos.x) - Math.min(location.x, pos.x), Math.max(location.y, pos.y) - Math.min(location.y, pos.y), Math.max(location.z, pos.z) - Math.min(location.z, pos.z)]
         const speedMult = (0.2 * (player.getEffect("speed")?.amplifier ?? 0))
         if (!player.runCommand(`testfor @s[hasitem={item=elytra,slot=0,location=slot.armor.chest}]`).error) log.set("wasHit", 10)
@@ -242,6 +234,7 @@ client.on("Tick", (currentTick) => {
         hit--
         log.set("wasHit", hit < 0 ? 0 : hit)
         log.set("pos", location)
+
 
         //Anti Autoclicker 1
         if (cps.length >= 25) {

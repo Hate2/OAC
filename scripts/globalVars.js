@@ -67,7 +67,6 @@ export const illegalItems = [
     "minecraft:bubble_column",
     "minecraft:chalkboard",
     "minecraft:structure_void",
-    "minecraft:",
     "minecraft:info_update2",
     "minecraft:info_update",
     "minecraft:netherreactor",

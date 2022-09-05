@@ -1,17 +1,7 @@
-//              _______   _______   _______ 
-//             |   _   | |   _   | |   _   |
-//             |.  |   | |.  1   | |.  1___|
-//             |.  |   | |.  _   | |.  |___ 
-//             |:  1   | |:  |   | |:  1   |
-//             |::.. . | |::.|:. | |::.. . |
-//             `-------' `--- ---' `-------'
-//              01001111 01000001 01000011 
-//                    - Anti-Cheat -
-
 import { system, BlockLocation } from 'mojang-minecraft';
-import { Client, broadcastMessage } from './Api/index.js'
+import { Client, broadcastMessage, setTickTimeout } from './Api/index.js'
 import { nameRegex, illegalItems, adminScoreboard, config, bannedMessages, notFullBlocks, notFullBlocksIncludes } from './globalVars.js'
-import { banPlayer, isAdmin, onPlayerJoin, setTickTimeout } from "./utils.js";
+import { banPlayer, isAdmin, onPlayerJoin } from "./utils.js";
 
 const client = new Client({ command: { enabled: false } })
 
@@ -19,15 +9,15 @@ client.on("Chat", ({ player, message, cancel }) => {
 
     //Anti Bad Packets
     if (message.length > 200 || message.length === 0) return cancel()
-    
+
     //Chat Filter
     if (message.toUpperCase() === message && message.length > 4) {
         cancel()
-        return player.message(`§7[§9OAC§7] §cMessages are not allowed to be in all caps!`)
+        return player.message(`§cMessages are not allowed to be in all caps!`)
     }
     for (let i = 0; i < message.length + 1; i++) if (message.includes(bannedMessages[i])) {
         cancel()
-        return player.message(`§7[§9OAC§7] §cThat message is not allowed (${bannedMessages[i] === "§k" ? "§k1§r§c" : bannedMessages[i]})`)
+        return player.message(`§cThat message is not allowed (${bannedMessages[i] === "§k" ? "§k1§r§c" : bannedMessages[i]})`)
     }
 })
 
@@ -41,19 +31,13 @@ onPlayerJoin(player => {
     log.set("pos", player.getLocation())
     log.set("wasHit", 0)
     log.set("speedFlags", 0)
-    log.set("brokenBlocks", 0)
+    log.set("blockLog", { time: Date.now(), loc: undefined, blockPerm: undefined, amount: 0 })
 
     //Anti Namespoof
     if (illegalName(player)) {
         banPlayer(player, "Namespoofing")
     }
     player.setNameTag(player.getNameTag().replace(/[^A-Za-z0-9_\-() ]/gm, ""))
-
-    //OAC clout
-    setTickTimeout(() => {
-        player.message("§7[§9OAC§7] §3This world is protected by OAC")
-        player.runCommand(`playsound note.pling @s`)
-    }, 100)
 })
 
 function illegalName(e) {
@@ -72,7 +56,7 @@ client.on("ItemUseOn", ({ item, cancel, entity }) => {
             entity.runCommand(`clear @s`)
             banPlayer(entity, `Having a ${item.getId().split(':')[1].replace(/_/g, ' ')}`)
         } else {
-            entity.message(`§7[§9OAC§7] §cYou are not allowed to have that item!`)
+            entity.message(`§cYou are not allowed to have that item!`)
             entity.runCommand(`playsound random.glass @s ~~~ 1 0.5`)
         }
     }
@@ -116,31 +100,40 @@ client.on("WorldLoad", (world) => {
         log.set("pos", player.getLocation())
         log.set("wasHit", 0)
         log.set("speedFlags", 0)
-        log.set("brokenBlocks", 0)
+        log.set("blockLog", { time: Date.now(), loc: undefined, blockPerm: undefined, amount: 0 })
     })
 })
 
+const blocks = []
+
 //Anti Nuker
-client.on("BlockBreak", ({ player, cancel }) => {
+client.on("BlockBreak", ({ player, cancel, block, brokenBlockPermutation }) => {
     if (isAdmin(player)) return;
     const log = player.getLog()
-    log.set("brokenBlocks", log.get("brokenBlocks")+1)
-    if(log.get("brokenBlocks") > 5) {
-        cancel()
+    const old = log.get("blockLog")
+    if (old.time < (Date.now() - 60)) return log.set("blockLog", { time: Date.now(), loc: block.getBlockLocation(), perm: brokenBlockPermutation, amount: old.amount + 1 })
+    if (old.amount === 1) {
+        player.getDimension().getBlock(old.loc).setPermutation(old.perm)
+        setTickTimeout(() => {
+            player.getDimension().getEntitiesAtLocation(old.loc).filter(entity => entity.getId() === "minecraft:item").forEach(entity => entity.kill())
+        }, 0)
     }
+    cancel()
+    log.set("blockLog", { time: Date.now(), loc: block.getBlockLocation(), perm: brokenBlockPermutation, amount: old.amount + 1 })
 })
 
 client.on("Tick", (currentTick) => {
+    blocks.forEach(({ loc, plr }) => plr.getDimension().getEntitiesAtLocation(loc).forEach(entity => entity.id === "minecraft:item" && entity.kill()))
     if (currentTick % 2 !== 0) return
     const players = client.world.getAllPlayers()
     for (const player of players) {
-        
+
         //Admin bypass
         if (isAdmin(player)) continue
+        const log = player.getLog()
 
         //Anti Speed 1
         if (currentTick % 400 === 0) {
-            const log = player.getLog()
             if (log.get("speedFlags") >= 3) banPlayer(player, "Speed hacking")
             if (log.get("speedFlags") !== 0) log.set("speedFlags", 0)
         }
@@ -149,10 +142,16 @@ client.on("Tick", (currentTick) => {
         if (player.getSelectedSlot() > 8 || player.getSelectedSlot() < 0) {
             banPlayer(player, `Bad packets`)
         }
+        const blockLog = log.get("blockLog")
+        if (blockLog.amount >= 5) {
+            banPlayer(player, "nuking")
+        }
+        log.set("blockLog", Object.assign(blockLog, { amount: 0 }))
 
 
         //Inventory stuff
         const inv = player.getInventory(), { size } = inv
+        if (inv.getItem(player.getSelectedSlot()).getId() === "minecraft:ender_pearl") log.set("wasHit", 20)
         for (let i = 0; i < size; i++) {
             const item = inv.getItem(i)
             if (!item) continue
@@ -164,7 +163,7 @@ client.on("Tick", (currentTick) => {
                     player.runCommand(`clear @s`)
                     banPlayer(player, `Having a ${item.getId().split(':')[1].replace(/_/g, ' ')}`)
                 } else {
-                    player.message(`§7[§9OAC§7] §cYou are not allowed to have that item!`)
+                    player.message(`§cYou are not allowed to have that item!`)
                     player.runCommand(`playsound random.glass @s ~~~ 1 0.5`)
                 }
                 continue
@@ -175,29 +174,28 @@ client.on("Tick", (currentTick) => {
             for (const ench of enchList) {
                 if (enchList.slot === 0 && !enchList.canAddEnchantment(ench)) {
                     item.removeEnchant(ench.type.id)
-                    player.message(`§7[§9OAC§7] §cYou are not allowed to have that enchant!`)
+                    player.message(`§cYou are not allowed to have that enchant!`)
                     player.runCommand(`playsound random.glass @s ~~~ 1 0.5`)
                 }
                 if (ench.level > ench.type.maxLevel) {
                     item.removeEnchant(ench.type.id)
-                    player.message(`§7[§9OAC§7] §cYou are not allowed to have that enchant!`)
+                    player.message(`§cYou are not allowed to have that enchant!`)
                     player.runCommand(`playsound random.glass @s ~~~ 1 0.5`)
                 }
                 if (ench.level < 0) {
                     item.removeEnchant(ench.type.id)
-                    player.message(`§7[§9OAC§7] §cYou are not allowed to have that enchant!`)
+                    player.message(`§cYou are not allowed to have that enchant!`)
                     player.runCommand(`playsound random.glass @s ~~~ 1 0.5`)
                 }
             }
         }
 
         //Log
-        const log = player.getLog()
         const cps = log.get("cps")
         const killaura = log.get("killaura")
 
         //Anti Nuker
-        if(log.get("brokenBlocks") > 5) {
+        if (log.get("brokenBlocks") > 5) {
             banPlayer(player, "Using nuker")
         }
         log.set("brokenBlocks", 0)
@@ -220,9 +218,9 @@ client.on("Tick", (currentTick) => {
         const block2 = dimension.getBlock(new BlockLocation(Math.floor(location.x), Math.floor(location.y) + 1, Math.floor(location.z))).getId()
         if ((!notFullBlocks.includes(block1) && !notFullBlocks.includes(block2)) && !notFullBlocksIncludes.find(e => block1.includes(e) && block2.includes(e))) {
             player.runCommand(`tp @s ${pos.x} ${pos.y} ${pos.z}`)
-            player.message("§7[§9OAC§7] §cNo clipping isn't allowed!")
+            player.message("§cNo clipping isn't allowed!")
             player.runCommand(`playsound random.glass @s ~~~ 1 0.5`)
-            log.set("wasHit",3)
+            log.set("wasHit", 3)
         }
 
         //Anti Speed 1.5
@@ -230,7 +228,7 @@ client.on("Tick", (currentTick) => {
         const speedMult = (0.2 * (player.getEffect("speed")?.amplifier ?? 0))
         if (!player.runCommand(`testfor @s[hasitem={item=elytra,slot=0,location=slot.armor.chest}]`).error) log.set("wasHit", 10)
         let hit = (log.get("wasHit") ?? 1)
-        if (((x > (1.6 + speedMult) && velocity.x !== 0) || (z > (1.3 + speedMult) && velocity.z !== 0)) && hit === 0 && !player.getEffect("poison") && !player.getEffect("wither") && !player.isOnFire() && !player.getDimension().getEntities({location: player.getLocation(), maxDistance: 5, excludeTypes: ["player"]}).find(e => e.hasComponent("rideable"))) log.set("speedFlags", log.get("speedFlags")+1)
+        if (((x > (1.6 + speedMult) && velocity.x !== 0) || (z > (1.3 + speedMult) && velocity.z !== 0)) && hit === 0 && !player.getEffect("poison") && !player.getEffect("wither") && !player.isOnFire() && !player.getDimension().getEntities({ location: player.getLocation(), maxDistance: 5, excludeTypes: ["player"] }).find(e => e.hasComponent("rideable"))) log.set("speedFlags", log.get("speedFlags") + 1)
         hit--
         log.set("wasHit", hit < 0 ? 0 : hit)
         log.set("pos", location)
@@ -238,8 +236,8 @@ client.on("Tick", (currentTick) => {
 
         //Anti Autoclicker 1
         if (cps.length >= 25) {
-            player.kick(`\n§7[§9OAC§7] §cYou are clicking to fast! Please consider clicking slower if you wish to keep playing`)
-            broadcastMessage(`§7[§9OAC§7] §c${player.getName()} was kicked due to: §3Clicking to fast (25 cps or higher)`)
+            player.kick(`\n§cYou are clicking to fast! Please consider clicking slower if you wish to keep playing`)
+            broadcastMessage(`§c${player.getName()} was kicked due to: §3Clicking to fast (25 cps or higher)`)
         }
 
         //Trusted tag + Anti Autoclicker 1.5
@@ -251,14 +249,14 @@ client.on("Tick", (currentTick) => {
         //Anti GMC
         if (player.getGamemode() === "creative") {
             player.setGamemode(player.getLog().get("gamemode"))
-            player.message(`§7[§9OAC§7] §cYou are not allowed to be in creative mode!`)
+            player.message(`§cYou are not allowed to be in creative mode!`)
             player.runCommand(`playsound random.glass @s ~~~ 1 0.5`)
         }
         log.set("gamemode", player.getGamemode())
 
         //Anti Anticlicker 2
         if (cps.length > 15) {
-            player.message(`§7[§9OAC§7] §cYou are clicking to fast! Please click slower`)
+            player.message(`§cYou are clicking to fast! Please click slower`)
             player.runCommand(`playsound random.glass @s ~~~ 1 0.5`)
         }
         log.set("cps", cps.map(e => e - 1).filter(e => e !== 0))

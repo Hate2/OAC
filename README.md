@@ -3,8 +3,8 @@
   ![image](https://user-images.githubusercontent.com/90171285/188550819-ca982970-f832-4c58-b850-7836c10cabf0.png)
 
   <img src="https://img.shields.io/github/downloads/Hate2/OAC/total" alt="Downloads"/>
-  <img src="https://img.shields.io/github/commit-activity/m/Hate2/OAC?style=plastic&logo=appveyor" alt="Commits Per Month"/>
-  <img src="https://img.shields.io/github/last-commit/Hate2/OAC?style=plastic&logo=appveyor" alt="Last Commit"/><br>
+  <img src="https://img.shields.io/github/commit-activity/m/Hate2/OAC" alt="Commits Per Month"/>
+  <img src="https://img.shields.io/github/last-commit/Hate2/OAC" alt="Last Commit"/><br>
   OAC Anti-cheat! Dedicated on protecting your minecraft realms and world from hackers.<br>
   With a dedicated team we have developed a secure anti-cheat able to eliminate horion or client players as a whole.
 

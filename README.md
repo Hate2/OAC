@@ -54,7 +54,7 @@
 
 ![image](https://user-images.githubusercontent.com/90171285/188551211-aafb7a4e-ad31-4d88-bc7e-1b53d883a485.png)
   
-  ★ https://github.com/Hate2
+  ★ [test](https://github.com/Hate2)
   ★ https://github.com/iBlqzed<br>
   ★ https://github.com/DookaDessss
 </div>

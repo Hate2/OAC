@@ -60,4 +60,5 @@
   ### [Love](https://github.com/Hate2) ★ [Blaze](https://github.com/iBlqzed) ★ [Dooka](https://github.com/DookaDessss)
 
  ---
+ If you are looking for help setting up Odin anti-cheat or want to report any bugs, join https://discord.gg/YBHBn7UEtT
 </div>

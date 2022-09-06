@@ -12,10 +12,8 @@ import { AntiNukerBreak, AntiNukerTick } from './Modules/AntiNuker.js'
 import { AntiSpeedHit, AntiSpeedTick } from './Modules/AntiSpeed.js'
 import { ChatFilter } from './Modules/ChatFilter.js'
 import { banPlayer, isAdmin, onPlayerJoin } from "./utils.js"
-let unbanWindow = false
 
-
-const client = new Client({ command: { enabled: true } })
+const client = new Client({ command: { enabled: true, invalidCommandError: `§7[§9OAC§7] §cInvalid command` } })
 
 if (config.modules.chatFilter.enabled) client.on("Chat", ChatFilter)
 
@@ -142,6 +140,7 @@ client.commands.create({
     name: "ban",
     description: "Ban someone"
 }, ({ args, player }) => {
+    if (!isAdmin(player)) return player.message(`§7[§9OAC§7] §cYou need to be admin to run this command!`)
     if (!/(?<=").+?(?=")/.test(args.join(' '))) return player.message(`§7[§9OAC§7] §cYou need to input a player's name! Example: "iBlqzed"`)
     const target = args.join(' ').match(/(?<=").+?(?=")/)[0]
     banDB.set(target, args.join(" ").slice(target.length + 3))
@@ -152,6 +151,7 @@ client.commands.create({
     name: 'unban',
     description: 'Unban someone'
 }, ({ args, player }) => {
+    if (!isAdmin(player)) return player.message(`§7[§9OAC§7] §cYou need to be admin to run this command!`)
     if (!/(?<=").+?(?=")/.test(args.join(' '))) return player.message(`§7[§9OAC§7] §cYou need to input a player's name! Example: "iBlqzed"`)
     const target = args.join(' ').match(/(?<=").+?(?=")/)[0]
     if (!banDB.has(target)) return player.message(`§7[§9OAC§7] §cPlayer has not been banned!`)

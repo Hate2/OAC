@@ -28,7 +28,7 @@
 
 ---
 
-# How to use
+## <img src="https://media.discordapp.net/attachments/977339885105082398/1016572873151893584/Banner_OAC_HTU.png">
 
 ### Setup
 > Import the mcpack into minecraft<br>

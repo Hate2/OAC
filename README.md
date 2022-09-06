@@ -4,9 +4,9 @@
   <img src="https://img.shields.io/github/downloads/Hate2/OAC/total?style=plastic&logo=appveyor" alt="Downloads"/>
   <img src="https://img.shields.io/github/commit-activity/m/Hate2/OAC?style=plastic&logo=appveyor" alt="Commits Per Month"/>
   <img src="https://img.shields.io/github/last-commit/Hate2/OAC?style=plastic&logo=appveyor" alt="Last Commit"/>
+  OAC Anti-cheat! Dedicated on protecting your minecraft worlds/realms from hackers.<br>
+  With a dedicated team we have developed a secure anti-cheat able to eliminate horion or client players as a whole.
 </div>
-OAC Anti-cheat! Dedicated on protecting your minecraft worlds/realms from hackers.<br>
-With a dedicated team we have developed a secure anti-cheat able to eliminate horion or client players as a whole.
 
 
 ---

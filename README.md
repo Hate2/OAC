@@ -11,7 +11,8 @@
 
 ---
 
-## <img src="https://media.discordapp.net/attachments/977339885105082398/1016569830129815612/Banner_OAC_F.png">
+![image](https://user-images.githubusercontent.com/90171285/188550636-6bbc1ee2-9b95-4cdc-a982-d1554ddbaebf.png)
+
 <div align="center">
   ★ Anti 32k ★<br>
   ★ Anti Autoclicker ★<br>
@@ -27,7 +28,8 @@
 </div>
 
 ---
-## <img src="https://media.discordapp.net/attachments/977339885105082398/1016573224911376404/Untitled33.png">
+
+![image](https://user-images.githubusercontent.com/90171285/188550662-105b8150-96bf-4f02-ae51-e9ee2890d3fa.png)
 
   ### Setup
   Import the mcpack into minecraft<br>

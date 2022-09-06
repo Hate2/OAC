@@ -16,12 +16,12 @@
 Anti Autoclicker ★ Anti Killaura<br>
  Anti Noclip ★ Chat Filter<br>
  Anti Speed ★ Anti Nuker<br>
+ Anti Fly ★ Anti Bhop<br>
  Anti 32k ★ Anti CBE<br>
  And more 
  
  ### Upcoming Features [fixed] <br>
- Anti Fly ★ Anti Bhop<br>
- Anti Chat Spam
+ Anti Chat Spam ★ Better Ban Messages
 
   ---
 

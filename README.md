@@ -58,7 +58,7 @@
   ### Seeing a players inventory
   ```diff
   Type .invsee "gamertag" in chat
-  ```diff
+  ```
 
   ---
 

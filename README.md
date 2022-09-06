@@ -12,11 +12,11 @@
 
   ![image](https://user-images.githubusercontent.com/90171285/188550636-6bbc1ee2-9b95-4cdc-a982-d1554ddbaebf.png)
 
- Anti Namespoof ★ Anti Illegal Items
+ Anti Namespoof ★ Anti Illegal Items<br>
  Anti Noclip ★ Chat Filter<br>
  Anti Speed ★ Anti Nuker<br>
  Anti 32k ★ Anti CBE<br>
- And more <br>
+ And more 
  ---
  ### Next Update <br>
  Anti Fly ★ Anti Bhop<br>

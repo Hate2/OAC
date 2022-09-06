@@ -18,7 +18,7 @@
  Anti 32k ★ Anti CBE<br>
  And more 
  
- ### Upcoming Features <br>
+ ### Upcoming Features [fixed] <br>
  Anti Fly ★ Anti Bhop<br>
  Anti Autoclicker ★ Anti Killaura<br>
 

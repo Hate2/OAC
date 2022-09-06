@@ -36,16 +36,16 @@ OAC is a Minecraft bedrock anti cheat that is made for realms.<br>
 4 Load into the world and run the command /scoreboard players set @s oac_admin 1<br>
 
 ### Giving a player staff
-Run the command /scoreboard players set "gamertag" oac_admin 1<br>
+> Run the command /scoreboard players set "gamertag" oac_admin 1<br>
 
 ### Banning someone
-Type .ban "gamertag" reason in chat<br>
+> Type .ban "gamertag" reason in chat<br>
 
 ### Unbanning someone
-Type .unban "gamertag" in chat<br>
+> Type .unban "gamertag" in chat<br>
 
 ### Seeing a players inventory
-Type .invsee "gamertag" in chat<br>
+> Type .invsee "gamertag" in chat<br>
 
 ## <img src="https://media.discordapp.net/attachments/781201377455767582/1016465287798865930/43f0e64ad6780abacbc14c6bed9c86020e3be70fda39a3ee5e6b4b0d3255bfef95601890afd80709da39a3ee5e6b4b0d3255bfef95601890afd8070955cfa57ca9095705b0b1dc394fa5c1db.png">
 ★ https://github.com/Hate2<br>

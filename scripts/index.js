@@ -181,6 +181,7 @@ client.commands.create({
         if (i === 9) for (let i = 9; i < 27; i++) blockInv.setItem(i, i > 17 ? bar2 : bar)
         blockInv.setItem(i > 8 ? i + 18 : i, plrInv.getItem(i))
     }
+    player.message(`§7[§9OAC§7] §3A chest has been placed near you with ${target.getName()}'s inventory.`)
 })
 
 client.commands.create({

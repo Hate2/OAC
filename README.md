@@ -53,6 +53,6 @@
 ![image](https://user-images.githubusercontent.com/90171285/188551211-aafb7a4e-ad31-4d88-bc7e-1b53d883a485.png)
   
   ## [Love](https://github.com/Hate2) ★ [Blaze](https://github.com/iBlqzed) ★ [Dooka](https://github.com/DookaDessss)
-</div>
 
  ---
+</div>

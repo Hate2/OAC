@@ -16,6 +16,7 @@
  Anti Namespoof ★ Anti Killaura<br>
  Anti Noclip ★ Chat Filter<br>
  Anti Speed ★ Anti Nuker<br>
+ Anti Fly ★ Anti Bhop<br>
  Anti 32k ★ Anti CBE<br>
  And more
 

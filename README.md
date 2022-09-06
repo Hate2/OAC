@@ -21,6 +21,7 @@ Anti Autoclicker ★ Anti Killaura<br>
  
  ### Upcoming Features [fixed] <br>
  Anti Fly ★ Anti Bhop<br>
+ Anti Chat Spam
 
   ---
 

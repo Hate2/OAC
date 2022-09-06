@@ -110,7 +110,7 @@ function runCommand(cmd) {
     try {
         return { error: false, data: world.getDimension('overworld').runCommand(cmd) };
     }
-    catch {
-        return { error: true, data: undefined };
+    catch (e) {
+        return { error: true, data: e };
     }
 }

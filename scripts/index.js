@@ -22,8 +22,8 @@ if (config.modules.chatFilter.enabled) client.on("Chat", ChatFilter)
 onPlayerJoin(player => {
 
     //Auto Ban
-    const plrDb = banDB.get(player.getName())
-    if (plrDb) banPlayer(player, `§7[§9OAC§7] You have been banned${plrDb.reason === '' ? '!' : plrDb.reason}\nDm the owner to appeal.`)
+    const reason = banDB.get(player.getName())
+    if (reason) player.kick(`§7[§9OAC§7] §cYou have been banned!\n§3Reason: ${reason ?? "No reason specified!"}`) && player.runCommand(`event entity @s oac:kick`)
 
     //Anti Namespoof
     if (config.modules.antiNamespoof.enabled) AntiNamespoof(player)
@@ -144,9 +144,7 @@ client.commands.create({
 }, ({ args, player }) => {
     if (!/(?<=").+?(?=")/.test(args.join(' '))) return player.message(`§7[§9OAC§7] §cYou need to input a player's name! Example: "iBlqzed"`)
     const target = args.join(' ').match(/(?<=").+?(?=")/)[0]
-    banDB.set(target, {
-        reason: args.join(' ').slice(target.length + 1)
-    })
+    banDB.set(target, args.join(" ").slice(target.length + 3))
     player.message(`§7[§9OAC§7] §3Successfully banned ${target}!`)
 })
 

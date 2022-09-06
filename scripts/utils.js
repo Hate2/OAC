@@ -11,6 +11,7 @@
 import { world } from "mojang-minecraft";
 import { Player } from './Api/index.js'
 import { config } from "./globalVars.js";
+import { banDB } from "./index.js";
 
 /**
  * Broadcast a message
@@ -28,9 +29,11 @@ export function broadcastMessage(message) {
  * @example banPlayer(player, "Hacking!")
  */
 export function banPlayer(player, reason) {
-    player.runCommandAsync(`scoreboard players set @s oac_ban 100`)
+    banDB.set(player.getName(), {
+        reason
+    })
     broadcastMessage(`§7[§9OAC§7] §c${JSON.stringify(player.getName()).slice(1, -1)} was banned${reason ? ` due to: §3${reason}` : `!`}`)
-    player.kick(`§7[§9OAC§7] §cYou have been banned!\n§3Reason: ${reason ?? "No reason specified!"}`)
+    player.kick(`§7[§9OAC§7] §cYou have been banned!\n§3Reason: ${reason ?? "No reason specified!"}`) && player.runCommand(`event entity @s oac:kick`)
 }
 
 /**

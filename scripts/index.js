@@ -15,14 +15,15 @@ import { banPlayer, isAdmin, onPlayerJoin } from "./utils.js"
 let unbanWindow = false
 
 
-const client = new Client({ command: { enabled: false } })
+const client = new Client({ command: { enabled: true } })
 
 if (config.modules.chatFilter.enabled) client.on("Chat", ChatFilter)
 
 onPlayerJoin(player => {
 
     //Auto Ban
-    if (player.getScore(config.banScoreboard) === 100) banPlayer(player, "§7[§9OAC§7] You have been banned for hacking.\nDm the owner to appeal.")
+    const plrDb = banDB.get(player.getName())
+    if (plrDb) banPlayer(player, `§7[§9OAC§7] You have been banned${plrDb.reason === '' ? '!' : plrDb.reason}\nDm the owner to appeal.`)
 
     //Anti Namespoof
     if (config.modules.antiNamespoof.enabled) AntiNamespoof(player)
@@ -63,7 +64,6 @@ client.on("WorldLoad", (world) => {
 
     //Making admin scoreboard
     client.runCommand(`scoreboard objectives add ${config.adminScoreboard} dummy`)
-    client.runCommand(`scoreboard objectives add ${config.banScoreboard} dummy`)
     world.getAllPlayers().forEach(player => {
 
         //Setting player's logs
@@ -89,19 +89,6 @@ client.on("Tick", (currentTick) => {
     if (currentTick % 2 !== 0) return
     const players = client.world.getAllPlayers()
     for (const player of players) {
-        //Unban window
-        if (currentTick % 40 === 0) {
-            if (unbanWindow === true && isAdmin(player)) {
-                player.message("§7[§9OAC§7] §3The unban window is open.")
-            }
-        }
-        if (unbanWindow === true) {
-            if (player.getScore("oac_ban") == 100) {
-                player.runCommand(`scoreboard players reset @s oac_ban`)
-                unbanWindow = false
-                player.runCommand(`tellraw @a[scores={oac_admin=1..}] {"rawtext":[{"text":"§7[§9OAC§7] §c${player.getNameTag()} was unbanned and the unban window was closed"}]}`)
-            }
-        }
 
         //Admin bypass
         if (isAdmin(player)) continue
@@ -148,3 +135,28 @@ client.on("Tick", (currentTick) => {
 })
 
 system.events.beforeWatchdogTerminate.subscribe((data) => { data.cancel = true })
+
+export const banDB = client.database.create("ban")
+
+client.commands.create({
+    name: "ban",
+    description: "Ban someone"
+}, ({ args, player }) => {
+    if (!/(?<=").+?(?=")/.test(args.join(' '))) return player.message(`§7[§9OAC§7] §cYou need to input a player's name! Example: "iBlqzed"`)
+    const target = args.join(' ').match(/(?<=").+?(?=")/)[0]
+    banDB.set(target, {
+        reason: args.join(' ').slice(target.length + 1)
+    })
+    player.message(`§7[§9OAC§7] §3Successfully banned ${target}!`)
+})
+
+client.commands.create({
+    name: 'unban',
+    description: 'Unban someone'
+}, ({ args, player }) => {
+    if (!/(?<=").+?(?=")/.test(args.join(' '))) return player.message(`§7[§9OAC§7] §cYou need to input a player's name! Example: "iBlqzed"`)
+    const target = args.join(' ').match(/(?<=").+?(?=")/)[0]
+    if (!banDB.has(target)) return player.message(`§7[§9OAC§7] §cPlayer has not been banned!`)
+    banDB.delete(target)
+    player.message(`§7[§9OAC§7] §3Successfully unbanned ${target}!`)
+})

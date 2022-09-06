@@ -47,17 +47,17 @@
   
   ### Banning someone
   ```diff
-  Type .ban "gamertag" reason in chat
+  Type -ban "gamertag" reason in chat
   ```
 
   ### Unbanning someone
   ```diff
-  Type .unban "gamertag" in chat
+  Type -unban "gamertag" in chat
   ```
 
   ### Seeing a players inventory
   ```diff
-  Type .invsee "gamertag" in chat
+  Type -invsee "gamertag" in chat
   ```
 
   ---

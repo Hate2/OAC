@@ -52,7 +52,8 @@
 
   ---
 
-  ## <img src="https://media.discordapp.net/attachments/781201377455767582/1016465287798865930/43f0e64ad6780abacbc14c6bed9c86020e3be70fda39a3ee5e6b4b0d3255bfef95601890afd80709da39a3ee5e6b4b0d3255bfef95601890afd8070955cfa57ca9095705b0b1dc394fa5c1db.png">
+![image](https://user-images.githubusercontent.com/90171285/188551211-aafb7a4e-ad31-4d88-bc7e-1b53d883a485.png)
+  
   ★ https://github.com/Hate2<br>
   ★ https://github.com/iBlqzed<br>
   ★ https://github.com/DookaDessss

@@ -5,7 +5,7 @@
   <img src="https://img.shields.io/github/commit-activity/m/Hate2/OAC?style=plastic&logo=appveyor" alt="Commits Per Month"/>
   <img src="https://img.shields.io/github/last-commit/Hate2/OAC?style=plastic&logo=appveyor" alt="Last Commit"/>
 </div>
-
+---
 ## <img src="https://media.discordapp.net/attachments/977339885105082398/1016569830129815612/Banner_OAC_F.png">
 <div align="center">
    ★ Anti 32k ★<br>

@@ -161,6 +161,8 @@ client.commands.create({
 
 const bar = new Item("minecraft:iron_bars")
 bar.setName("§r§fHotbar")
+const bar2 = new Item("minecraft:iron_bars")
+bar.setName("§r§fInventory")
 
 client.commands.create({
     name: 'invsee',
@@ -176,7 +178,7 @@ client.commands.create({
     const blockInv = block.getInventory()
     const plrInv = target.getInventory()
     for (let i = 0; i < 36; i++) {
-        if (i === 9) for (let i = 9; i < 18; i++) blockInv.setItem(i, bar)
+        if (i === 9) for (let i = 9; i < 27; i++) blockInv.setItem(i, i > 17 ? bar2 : bar)
         blockInv.setItem(i > 8 ? i + 18 : i, plrInv.getItem(i))
     }
 })

@@ -150,7 +150,8 @@ export const notFullBlocks = [
     "minecraft:web",
     "minecraft:seagrass",
     "minecraft:sand",
-    "minecraft:gravel"
+    "minecraft:gravel",
+    "minecraft:bamboo"
 ]
 
 export const notFullBlocksIncludes = [
@@ -159,5 +160,6 @@ export const notFullBlocksIncludes = [
     "coral",
     "chest",
     "slab",
-    "concrete_powder"
+    "concrete_powder",
+    "vine"
 ]

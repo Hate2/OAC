@@ -6,7 +6,7 @@
   <img src="https://img.shields.io/github/commit-activity/m/Hate2/OAC" alt="Commits Per Month"/>
   <img src="https://img.shields.io/github/last-commit/Hate2/OAC" alt="Last Commit"/>
   <a href="https://github.com/badges/Hate2/OAC/contributors" alt="Contributors">
-        <img src="https://img.shields.io/github/contributors/badges/shields" /></a>
+        <img src="https://img.shields.io/github/contributors/Hate2/OAC" /></a>
   <a href="https://discord.gg/YBHBn7UEtT">
         <img src="https://img.shields.io/discord/818549844766752818?logo=discord"
             alt="chat on Discord"></a><br>

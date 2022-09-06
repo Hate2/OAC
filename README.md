@@ -1,19 +1,18 @@
+<div align="center">
 ![](https://media.discordapp.net/attachments/977339885105082398/1016568674523549766/Banner_OAC.png)<br/>
 
-<div align="center">
   <img src="https://img.shields.io/github/downloads/Hate2/OAC/total?style=plastic&logo=appveyor" alt="Downloads"/>
   <img src="https://img.shields.io/github/commit-activity/m/Hate2/OAC?style=plastic&logo=appveyor" alt="Commits Per Month"/>
   <img src="https://img.shields.io/github/last-commit/Hate2/OAC?style=plastic&logo=appveyor" alt="Last Commit"/><br>
   OAC Anti-cheat! Dedicated on protecting your minecraft realms and world from hackers.<br>
   With a dedicated team we have developed a secure anti-cheat able to eliminate horion or client players as a whole.
-</div>
 
 
----
+  ---
 
-![image](https://user-images.githubusercontent.com/90171285/188550636-6bbc1ee2-9b95-4cdc-a982-d1554ddbaebf.png)
+  ![image](https://user-images.githubusercontent.com/90171285/188550636-6bbc1ee2-9b95-4cdc-a982-d1554ddbaebf.png)
 
-<div align="center">
+
   ★ Anti 32k ★<br>
   ★ Anti Autoclicker ★<br>
   ★ Anti CBE ★<br>
@@ -25,11 +24,11 @@
   ★ Anti Noclip ★<br>
   ★ Anti Nuker ★<br>
   ★ And more ★<br>
-</div>
 
----
 
-![image](https://user-images.githubusercontent.com/90171285/188550662-105b8150-96bf-4f02-ae51-e9ee2890d3fa.png)
+  ---
+
+  ![image](https://user-images.githubusercontent.com/90171285/188550662-105b8150-96bf-4f02-ae51-e9ee2890d3fa.png)
 
   ### Setup
   Import the mcpack into minecraft<br>
@@ -48,11 +47,12 @@
 
   ### Seeing a players inventory
   Type .invsee "gamertag" in chat<br>
+
+
+  ---
+
+  ## <img src="https://media.discordapp.net/attachments/781201377455767582/1016465287798865930/43f0e64ad6780abacbc14c6bed9c86020e3be70fda39a3ee5e6b4b0d3255bfef95601890afd80709da39a3ee5e6b4b0d3255bfef95601890afd8070955cfa57ca9095705b0b1dc394fa5c1db.png">
+  ★ https://github.com/Hate2<br>
+  ★ https://github.com/iBlqzed<br>
+  ★ https://github.com/DookaDessss
 </div>
-
----
-
-## <img src="https://media.discordapp.net/attachments/781201377455767582/1016465287798865930/43f0e64ad6780abacbc14c6bed9c86020e3be70fda39a3ee5e6b4b0d3255bfef95601890afd80709da39a3ee5e6b4b0d3255bfef95601890afd8070955cfa57ca9095705b0b1dc394fa5c1db.png">
-★ https://github.com/Hate2<br>
-★ https://github.com/iBlqzed<br>
-★ https://github.com/DookaDessss

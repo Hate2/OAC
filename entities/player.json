@@ -31,11 +31,7 @@
 				"blazedapi:is_using_item": "controller.animation.player.is_using_item"
 			}
 		},
-		"component_groups": {
-			"oac:ban": {
-				"minecraft:instant_despawn": {}
-			}
-		},
+		"component_groups": {},
 		"components": {
 			"minecraft:experience_reward": {
 				"on_death": "Math.Min(query.player_level * 7, 100)"

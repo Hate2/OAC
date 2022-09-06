@@ -29,24 +29,25 @@
 ---
 
 ## <img src="https://media.discordapp.net/attachments/977339885105082398/1016572873151893584/Banner_OAC_HTU.png">
+<div align="center">
+  ### Setup
+  Import the mcpack into minecraft<br>
+  Enable gametest on your world<br>
+  Apply the pack to the world (put it at the top of the list)<br>
+  Load into the world and run the command /scoreboard players set @s oac_admin 1<br>
 
-### Setup
-> Import the mcpack into minecraft<br>
-> Enable gametest on your world<br>
-> Apply the pack to the world (put it at the top of the list)<br>
-> Load into the world and run the command /scoreboard players set @s oac_admin 1<br>
+  ### Giving a player staff
+  Run the command /scoreboard players set "gamertag" oac_admin 1<br>
 
-### Giving a player staff
-> Run the command /scoreboard players set "gamertag" oac_admin 1<br>
+  ### Banning someone
+  Type .ban "gamertag" reason in chat<br>
 
-### Banning someone
-> Type .ban "gamertag" reason in chat<br>
+  ### Unbanning someone
+  Type .unban "gamertag" in chat<br>
 
-### Unbanning someone
-> Type .unban "gamertag" in chat<br>
-
-### Seeing a players inventory
-> Type .invsee "gamertag" in chat<br>
+  ### Seeing a players inventory
+  Type .invsee "gamertag" in chat<br>
+</div>
 
 ---
 

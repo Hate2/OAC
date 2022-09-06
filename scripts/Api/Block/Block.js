@@ -1,3 +1,4 @@
+import { BlockInventory } from "../Inventory/index.js";
 import { locationFunctions } from "../utils";
 import { Dimension } from "../World/index";
 export class Block {
@@ -32,6 +33,9 @@ export class Block {
      */
     getId() {
         return this.block?.id;
+    }
+    getInventory() {
+        return new BlockInventory(this.block)
     }
     /**
      * Get the block's location

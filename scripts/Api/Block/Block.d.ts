@@ -1,4 +1,5 @@
 import { Block as IBlock, BlockLocation, BlockPermutation, BlockType, Location } from "mojang-minecraft";
+import { BlockInventory } from "../Inventory/index.js";
 import { Dimension } from "../World/index";
 export declare class Block {
     protected readonly block: IBlock;
@@ -24,6 +25,11 @@ export declare class Block {
      * @returns {string} The block's id
      */
     getId(): string;
+    /**
+     * Get the block's inventory
+     * @returns {BlockInventory} The block's inventory
+     */
+    getInventory(): BlockInventory
     /**
      * Get the block's location
      * @returns {Location} The block's location

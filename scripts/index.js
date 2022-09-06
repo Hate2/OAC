@@ -1,5 +1,5 @@
 import { system } from 'mojang-minecraft'
-import { Client } from './Api/index.js'
+import { Client, Item, locationFunctions } from './Api/index.js'
 import { config } from './globalVars.js'
 import { Anti32k } from './Modules/Anti32k.js'
 import { AntiAutoClickerHit, AntiAutoClickerTick } from './Modules/AntiAutoClicker.js'
@@ -157,4 +157,26 @@ client.commands.create({
     if (!banDB.has(target)) return player.message(`§7[§9OAC§7] §cPlayer has not been banned!`)
     banDB.delete(target)
     player.message(`§7[§9OAC§7] §3Successfully unbanned ${target}!`)
+})
+
+const bar = new Item("minecraft:iron_bars")
+bar.setName("§r§fHotbar")
+
+client.commands.create({
+    name: 'invsee',
+    description: "See someone's inventory",
+    aliases: ['isee']
+}, ({ args, player }) => {
+    if (!isAdmin(player)) return player.message(`§7[§9OAC§7] §cYou need to be admin to run this command!`)
+    if (!/(?<=").+?(?=")/.test(args.join(' '))) return player.message(`§7[§9OAC§7] §cYou need to input a player's name! Example: "iBlqzed"`)
+    const target = client.world.getAllPlayers().find(e => e.getName() === args.join(' ').match(/(?<=").+?(?=")/)[0])
+    if (!target) return player.message(`§7[§9OAC§7] §cPlayer is not online!`)
+    player.runCommand(`fill ~~~ ~1~~ chest`)
+    const block = player.getDimension().getBlock(locationFunctions.locationToBlockLocation(player.getLocation()))
+    const blockInv = block.getInventory()
+    const plrInv = target.getInventory()
+    for (let i = 0; i < 36; i++) {
+        if (i === 9) for (let i = 9; i < 18; i++) blockInv.setItem(i, bar)
+        blockInv.setItem(i > 8 ? i + 18 : i, plrInv.getItem(i))
+    }
 })

@@ -11,7 +11,7 @@
         <img src="https://img.shields.io/discord/818549844766752818?logo=discord"
             alt="chat on Discord"></a><br>
   OAC Anti-cheat! Dedicated on protecting your minecraft realms and world from hackers.<br>
-  With a dedicated team we have developed a secure anti-cheat able to eliminate horion or client players as a whole.
+  With a dedicated team we have developed a secure anti-cheat able to eliminate horion or client players as a whole.<br>
   If you are looking for help setting up Odin anti-cheat or want to report any bugs, join https://discord.gg/YBHBn7UEtT
 
 

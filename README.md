@@ -1,5 +1,5 @@
 <div align="center">
-  ![](https://media.discordapp.net/attachments/977339885105082398/1016568674523549766/Banner_OAC.png)<br/>
+  ![image](https://user-images.githubusercontent.com/90171285/188550819-ca982970-f832-4c58-b850-7836c10cabf0.png)
 
   <img src="https://img.shields.io/github/downloads/Hate2/OAC/total?style=plastic&logo=appveyor" alt="Downloads"/>
   <img src="https://img.shields.io/github/commit-activity/m/Hate2/OAC?style=plastic&logo=appveyor" alt="Commits Per Month"/>

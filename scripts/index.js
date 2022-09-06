@@ -11,7 +11,7 @@ import { AntiNoClip } from './Modules/AntiNoClip.js'
 import { AntiNukerBreak, AntiNukerTick } from './Modules/AntiNuker.js'
 import { AntiSpeedHit, AntiSpeedTick } from './Modules/AntiSpeed.js'
 import { ChatFilter } from './Modules/ChatFilter.js'
-import { banPlayer, isAdmin, onPlayerJoin } from "./utils.js"
+import { banPlayer, isAdmin, onPlayerJoin, setTickTimeout } from "./utils.js"
 
 const client = new Client({ command: { enabled: true, invalidCommandError: `§7[§9OAC§7] §cInvalid command` } })
 
@@ -37,6 +37,11 @@ onPlayerJoin(player => {
         log.set("speedFlags", 0)
     }
     if (config.modules.antiNuker.enabled) log.set("blockLog", { time: Date.now(), loc: undefined, blockPerm: undefined, amount: 0 })
+
+    setTickTimeout(() => {
+        player.message(`§7[§9OAC§7] §3Odin Anti Cheat is running!`)
+        player.runCommand(`playsound note.pling @s`)
+    }, 100)
 })
 
 //Anti AutoClicker

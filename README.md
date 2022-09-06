@@ -35,9 +35,9 @@
 
   ### Setup
   ```diff
-  # Enable gametest on your world<br>
-  # Apply the pack to the world (put it at the top of the list)<br>
-  # Run the command /scoreboard players set @s oac_admin 1<br>
+  Enable gametest on your world<br>
+  Apply the pack to the world (put it at the top of the list)<br>
+  Run the command /scoreboard players set @s oac_admin 1<br>
   ```
 
   ### Giving a player staff

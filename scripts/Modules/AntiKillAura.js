@@ -1,7 +1,7 @@
 import { config } from "../globalVars"
 import { banPlayer } from "../utils"
 
-const { flagAmount } = config.modules.antiKillaura.flagAmount
+const flagAmount = 10
 
 export async function AntiKillAuraTick(player) {
     const log = player.getLog(), killaura = log.get("killaura")

@@ -55,7 +55,7 @@ if (config.modules.antiKillaura.enabled) client.on("EntityHit", ({ entity, hitEn
 })
 
 //Anti Speed
-if (config.modules.antiSpeed.enabled) client.on("EntityHit", ({ hitEntity }) => {
+if (config.modules.antiSpeed.enabled) client.on("Tick", ({ hitEntity }) => {
     if (hitEntity?.isPlayer()) AntiSpeedHit(hitEntity)
 })
 

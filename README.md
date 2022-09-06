@@ -41,7 +41,7 @@
   > Run the command /scoreboard players set @s oac_admin 1<br>
 
   ### Giving a player staff
-  > Run the command /scoreboard players set "gamertag" oac_admin 1<br>
+  <font color="green"> Some green text </font> Run the command /scoreboard players set "gamertag" oac_admin 1<br>
 
   ### Banning someone
   > Type .ban "gamertag" reason in chat<br>

@@ -20,8 +20,8 @@
  Anti 32k ★ Anti CBE<br>
  And more 
  
- ### Upcoming Features [fixed] <br>
- Anti Chat Spam ★ Better Ban Messages <br>
+ ### Upcoming Features [fixed]<br>
+ Anti Chat Spam ★ Better Ban Messages<br>
  Custom Mod Menu
 
   ---

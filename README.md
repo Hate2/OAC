@@ -35,7 +35,7 @@
   Import the mcpack into minecraft<br>
   Enable gametest on your world<br>
   Apply the pack to the world (put it at the top of the list)<br>
-  Load into the world and run the command /scoreboard players set @s oac_admin 1<br>
+  Run the command /scoreboard players set @s oac_admin 1<br>
 
   ### Giving a player staff
   Run the command /scoreboard players set "gamertag" oac_admin 1<br>

@@ -15,8 +15,8 @@
 
 
   ### ★ Anti 32k ★
-  ### ★ Anti Autoclicker ★<br>
-  ### ★ Anti CBE ★<br>
+  ### ★ Anti Autoclicker ★
+  ### ★ Anti CBE ★
   ### ★ Anti Illegal Items ★<br>
   ### ★ Anti Killaura ★<br>
   ### ★ Anti Namespoof ★<br>

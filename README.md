@@ -27,9 +27,8 @@
 </div>
 
 ---
+## <img src="https://media.discordapp.net/attachments/977339885105082398/1016573224911376404/Untitled33.png">
 
-## <img src="https://media.discordapp.net/attachments/977339885105082398/1016572873151893584/Banner_OAC_HTU.png">
-<div align="center">
   ### Setup
   Import the mcpack into minecraft<br>
   Enable gametest on your world<br>

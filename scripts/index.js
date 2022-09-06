@@ -138,10 +138,10 @@ export const banDB = client.database.create("ban")
 
 client.commands.create({
     name: "ban",
-    description: "Ban someone"
+    description: "Ban someone. Example: -ban \"Dooka\""
 }, ({ args, player }) => {
     if (!isAdmin(player)) return player.message(`§7[§9OAC§7] §cYou need to be admin to run this command!`)
-    if (!/(?<=").+?(?=")/.test(args.join(' '))) return player.message(`§7[§9OAC§7] §cYou need to input a player's name! Example: "iBlqzed"`)
+    if (!/(?<=").+?(?=")/.test(args.join(' '))) return player.message(`§7[§9OAC§7] §cYou need to input a player's name! Example: -ban "Dooka"`)
     const target = args.join(' ').match(/(?<=").+?(?=")/)[0]
     banDB.set(target, args.join(" ").slice(target.length + 3))
     player.message(`§7[§9OAC§7] §3Successfully banned ${target}!`)
@@ -149,10 +149,10 @@ client.commands.create({
 
 client.commands.create({
     name: 'unban',
-    description: 'Unban someone'
+    description: 'Unban someone. Example: -unban "L0VE MC"'
 }, ({ args, player }) => {
     if (!isAdmin(player)) return player.message(`§7[§9OAC§7] §cYou need to be admin to run this command!`)
-    if (!/(?<=").+?(?=")/.test(args.join(' '))) return player.message(`§7[§9OAC§7] §cYou need to input a player's name! Example: "iBlqzed"`)
+    if (!/(?<=").+?(?=")/.test(args.join(' '))) return player.message(`§7[§9OAC§7] §cYou need to input a player's name! Example: -unban "L0VE MC"`)
     const target = args.join(' ').match(/(?<=").+?(?=")/)[0]
     if (!banDB.has(target)) return player.message(`§7[§9OAC§7] §cPlayer has not been banned!`)
     banDB.delete(target)
@@ -162,15 +162,15 @@ client.commands.create({
 const bar = new Item("minecraft:iron_bars")
 bar.setName("§r§fHotbar")
 const bar2 = new Item("minecraft:iron_bars")
-bar.setName("§r§fInventory")
+bar2.setName("§r§fInventory")
 
 client.commands.create({
     name: 'invsee',
-    description: "See someone's inventory",
+    description: "See someone's inventory. Example: -invsee \"iBlqzed\"",
     aliases: ['isee']
 }, ({ args, player }) => {
     if (!isAdmin(player)) return player.message(`§7[§9OAC§7] §cYou need to be admin to run this command!`)
-    if (!/(?<=").+?(?=")/.test(args.join(' '))) return player.message(`§7[§9OAC§7] §cYou need to input a player's name! Example: "iBlqzed"`)
+    if (!/(?<=").+?(?=")/.test(args.join(' '))) return player.message(`§7[§9OAC§7] §cYou need to input a player's name! Example: -invsee "iBlqzed"`)
     const target = client.world.getAllPlayers().find(e => e.getName() === args.join(' ').match(/(?<=").+?(?=")/)[0])
     if (!target) return player.message(`§7[§9OAC§7] §cPlayer is not online!`)
     player.runCommand(`fill ~~~ ~1~~ chest`)
@@ -181,4 +181,24 @@ client.commands.create({
         if (i === 9) for (let i = 9; i < 27; i++) blockInv.setItem(i, i > 17 ? bar2 : bar)
         blockInv.setItem(i > 8 ? i + 18 : i, plrInv.getItem(i))
     }
+})
+
+client.commands.create({
+    name: 'help',
+    description: 'Get help on all commands',
+    aliases: ["h"]
+}, ({ args, player }) => {
+    if (!args[0] || args[0] === '') {
+        const msg = '§7[§9OAC§7] §3All commands\n'
+        client.commands.forEach(e => msg += `§3${e.name.toUpperCase()}: ${e.description ?? "No description availiable"}`)
+        return player.message(msg)
+    }
+    let found = false
+    client.commands.forEach(e => {
+        if (args[0] === e.name) {
+            found = true
+            player.message(`§7[§9OAC§7] §3${e.name.toUpperCase()}: ${e.description ?? "No description availiable"}`)
+        }
+    })
+    if (!found) player.message(`§7[§9OAC§7] §cNo command found with the name ${args[0]}`)
 })

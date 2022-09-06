@@ -17,9 +17,12 @@
 
   ![image](https://user-images.githubusercontent.com/90171285/188550636-6bbc1ee2-9b95-4cdc-a982-d1554ddbaebf.png)
 
-  Anti Illegal Items ★ Anti Autoclicker ★ Anti Namespoof ★ Anti Killaura 
-  Anti Noclip ★ Chat Filter ★ Anti Speed ★ Anti Nuker ★ Anti 32k ★ Anti CBE 
-  And more
+ Anti Illegal Items ★ Anti Autoclicker<br>
+ Anti Namespoof ★ Anti Killaura<br>
+ Anti Noclip ★ Chat Filter<br>
+ Anti Speed ★ Anti Nuker<br>
+ Anti 32k ★ Anti CBE<br>
+ And more
 
   ---
 

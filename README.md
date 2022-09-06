@@ -12,7 +12,9 @@
             alt="chat on Discord"></a><br>
   OAC Anti-cheat! Dedicated on protecting your minecraft realms and world from hackers.<br>
   With a dedicated team we have developed a secure anti-cheat able to eliminate horion or client players as a whole.<br>
-
+  <font color="green">
+    Some green text
+  </font>
 
   ---
 
@@ -41,7 +43,7 @@
   > Run the command /scoreboard players set @s oac_admin 1<br>
 
   ### Giving a player staff
-  <font color="green"> Some green text </font> Run the command /scoreboard players set "gamertag" oac_admin 1<br>
+  Run the command /scoreboard players set "gamertag" oac_admin 1<br>
 
   ### Banning someone
   > Type .ban "gamertag" reason in chat<br>

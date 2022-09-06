@@ -17,14 +17,14 @@
   ### ★ Anti 32k ★
   ### ★ Anti Autoclicker ★
   ### ★ Anti CBE ★
-  ### ★ Anti Illegal Items ★<br>
-  ### ★ Anti Killaura ★<br>
-  ### ★ Anti Namespoof ★<br>
-  ### ★ Anti Speed ★<br>
-  ### ★ Chat Filter ★<br>
-  ### ★ Anti Noclip ★<br>
-  ### ★ Anti Nuker ★<br>
-  ### ★ And more ★<br>
+  ### ★ Anti Illegal Items ★
+  ### ★ Anti Killaura ★
+  ### ★ Anti Namespoof ★
+  ### ★ Anti Speed ★
+  ### ★ Chat Filter ★
+  ### ★ Anti Noclip ★
+  ### ★ Anti Nuker ★
+  ### ★ And more ★
 
 
   ---

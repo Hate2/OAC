@@ -14,7 +14,7 @@
   ![image](https://user-images.githubusercontent.com/90171285/188550636-6bbc1ee2-9b95-4cdc-a982-d1554ddbaebf.png)
 
 
-  # ★ Anti 32k ★<br>
+  ### ★ Anti 32k ★
   ### ★ Anti Autoclicker ★<br>
   ### ★ Anti CBE ★<br>
   ### ★ Anti Illegal Items ★<br>

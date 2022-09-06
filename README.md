@@ -35,23 +35,30 @@
 
   ### Setup
   ```diff
-  Enable gametest on your world<br>
+  Enable gametest on your world
   Apply the pack to the world (put it at the top of the list)
   Run the command /scoreboard players set @s oac_admin 1
   ```
-
+  
   ### Giving a player staff
-  Run the command /scoreboard players set "gamertag" oac_admin 1<br>
-
+  ```diff
+  Run the command /scoreboard players set "gamertag" oac_admin 1
+  ```
+  
   ### Banning someone
-  Type .ban "gamertag" reason in chat<br>
+  ```diff
+  Type .ban "gamertag" reason in chat
+  ```
 
   ### Unbanning someone
-  Type .unban "gamertag" in chat<br>
+  ```diff
+  Type .unban "gamertag" in chat
+  ```
 
   ### Seeing a players inventory
-  Type .invsee "gamertag" in chat<br>
-
+  ```diff
+  Type .invsee "gamertag" in chat
+  ```diff
 
   ---
 

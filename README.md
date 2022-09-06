@@ -8,7 +8,7 @@
 
 ## <img src="https://media.discordapp.net/attachments/977339885105082398/1016569830129815612/Banner_OAC_F.png">
 <div align="center">
-   <font size="1">★ Anti 32k ★<br></font> 
+   <font size="3">★ Anti 32k ★<br></font> 
   ★ Anti Autoclicker ★<br>
   ★ Anti CBE ★<br>
   ★ Anti Illegal Items ★<br>

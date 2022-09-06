@@ -138,7 +138,7 @@ export const banDB = client.database.create("ban")
 
 client.commands.create({
     name: "ban",
-    description: "Ban someone. Example: -ban \"Dooka\""
+    description: "Ban someone. §2Example: -ban \"Dooka\""
 }, ({ args, player }) => {
     if (!isAdmin(player)) return player.message(`§7[§9OAC§7] §cYou need to be admin to run this command!`)
     if (!/(?<=").+?(?=")/.test(args.join(' '))) return player.message(`§7[§9OAC§7] §cYou need to input a player's name! Example: -ban "Dooka"`)
@@ -149,7 +149,7 @@ client.commands.create({
 
 client.commands.create({
     name: 'unban',
-    description: 'Unban someone. Example: -unban "L0VE MC"'
+    description: 'Unban someone. §2Example: -unban "L0VE MC"'
 }, ({ args, player }) => {
     if (!isAdmin(player)) return player.message(`§7[§9OAC§7] §cYou need to be admin to run this command!`)
     if (!/(?<=").+?(?=")/.test(args.join(' '))) return player.message(`§7[§9OAC§7] §cYou need to input a player's name! Example: -unban "L0VE MC"`)
@@ -166,7 +166,7 @@ bar2.setName("§r§fInventory")
 
 client.commands.create({
     name: 'invsee',
-    description: "See someone's inventory. Example: -invsee \"iBlqzed\"",
+    description: "See someone's inventory. §2Example: -invsee \"iBlqzed\"",
     aliases: ['isee']
 }, ({ args, player }) => {
     if (!isAdmin(player)) return player.message(`§7[§9OAC§7] §cYou need to be admin to run this command!`)
@@ -189,15 +189,15 @@ client.commands.create({
     aliases: ["h"]
 }, ({ args, player }) => {
     if (!args[0] || args[0] === '') {
-        const msg = '§7[§9OAC§7] §3All commands\n'
-        client.commands.forEach(e => msg += `§3${e.name.toUpperCase()}: ${e.description ?? "No description availiable"}`)
+        let msg = '§7[§9OAC§7] §3All commands\n'
+        client.commands.forEach(e => msg += `§6${e.name.toUpperCase()}: §3${e.description ?? "No description availiable"}\n`)
         return player.message(msg)
     }
     let found = false
     client.commands.forEach(e => {
         if (args[0] === e.name) {
             found = true
-            player.message(`§7[§9OAC§7] §3${e.name.toUpperCase()}: ${e.description ?? "No description availiable"}`)
+            player.message(`§7[§9OAC§7] §6${e.name.toUpperCase()}: §3${e.description ?? "No description availiable"}`)
         }
     })
     if (!found) player.message(`§7[§9OAC§7] §cNo command found with the name ${args[0]}`)

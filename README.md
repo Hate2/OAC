@@ -12,13 +12,15 @@
 
   ![image](https://user-images.githubusercontent.com/90171285/188550636-6bbc1ee2-9b95-4cdc-a982-d1554ddbaebf.png)
 
- Anti Illegal Items ★ Anti Autoclicker<br>
- Anti Namespoof ★ Anti Killaura<br>
+ Anti Namespoof ★ Anti Illegal Items
  Anti Noclip ★ Chat Filter<br>
  Anti Speed ★ Anti Nuker<br>
- Anti Fly ★ Anti Bhop<br>
  Anti 32k ★ Anti CBE<br>
- And more
+ And more <br>
+ ---
+ ### Next Update <br>
+ Anti Fly ★ Anti Bhop<br>
+ Anti Autoclicker ★ Anti Killaura<br>
 
   ---
 

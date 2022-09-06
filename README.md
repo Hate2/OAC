@@ -36,9 +36,9 @@
   ![image](https://user-images.githubusercontent.com/90171285/188550662-105b8150-96bf-4f02-ae51-e9ee2890d3fa.png)
 
   ### Setup
-  Enable gametest on your world<br>
-  Apply the pack to the world (put it at the top of the list)<br>
-  Run the command /scoreboard players set @s oac_admin 1<br>
+  > Enable gametest on your world<br>
+  > Apply the pack to the world (put it at the top of the list)<br>
+  > Run the command /scoreboard players set @s oac_admin 1<br>
 
   ### Giving a player staff
   Run the command /scoreboard players set "gamertag" oac_admin 1<br>

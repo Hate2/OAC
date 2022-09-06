@@ -21,8 +21,8 @@
  And more 
  
  ### Upcoming Features [fixed] <br>
- Anti Chat Spam ★ Better Ban Messages
-Custom Mod Menu
+ Anti Chat Spam ★ Better Ban Messages <br>
+ Custom Mod Menu
 
   ---
 

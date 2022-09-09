@@ -11,7 +11,6 @@
 export const config = {
     trustedTag: "trusted",
     adminScoreboard: 'oac_admin',
-    banScoreboard: 'oac_ban',
     modules: {
         anti32k: {
             enabled: true

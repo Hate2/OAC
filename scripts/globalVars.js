@@ -111,6 +111,10 @@ export const config = {
         antiNuker: {
             enabled: true
         },
+        antiReach: {
+            enabled: true,
+            reachLimit: 7
+        },
         antiSpeed: {
             enabled: true
         },

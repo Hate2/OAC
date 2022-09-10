@@ -1,5 +1,5 @@
 import { system } from 'mojang-minecraft'
-import { ActionForm, Client, Item, locationFunctions, ModalForm } from './Api/index.js'
+import { Client } from './Api/index.js'
 import { config } from './globalVars.js'
 import { Anti32k } from './Modules/Anti32k.js'
 import { AntiAutoClickerHit, AntiAutoClickerTick } from './Modules/AntiAutoClicker.js'
@@ -9,11 +9,13 @@ import { AntiKillAuraHit, AntiKillAuraTick } from './Modules/AntiKillAura.js'
 import { AntiNamespoof } from './Modules/AntiNamespoof.js'
 import { AntiNoClip } from './Modules/AntiNoClip.js'
 import { AntiNukerBreak, AntiNukerTick } from './Modules/AntiNuker.js'
+import { AntiReach } from './Modules/AntiReach.js'
 import { AntiSpeedHit, AntiSpeedTick } from './Modules/AntiSpeed.js'
 import { ChatFilter } from './Modules/ChatFilter.js'
 import { banPlayer, isAdmin, onPlayerJoin, setTickTimeout } from "./utils.js"
 
-const client = new Client({ command: { enabled: true, invalidCommandError: `§7[§9OAC§7] §cInvalid command` } })
+export const client = new Client({ command: { enabled: true, invalidCommandError: `§7[§9OAC§7] §cInvalid command` } })
+export const banDB = client.database.create("ban")
 
 if (config.modules.chatFilter.enabled) client.on("Chat", ChatFilter)
 
@@ -54,14 +56,32 @@ if (config.modules.antiKillaura.enabled) client.on("EntityHit", ({ entity, hitEn
     if (entity.isPlayer() && entity.getEntitiesFromViewVector()[0]?.getId() !== hitEntity.getId()) AntiKillAuraHit(entity)
 })
 
-//Anti Speed
-if (config.modules.antiSpeed.enabled) client.on("Tick", ({ hitEntity }) => {
-    if (hitEntity?.isPlayer()) AntiSpeedHit(hitEntity)
-})
+//Anti Reach
+if (config.modules.antiReach.enabled) {
+    client.on("EntityHit", ({ entity, hitEntity }) => {
+        if (entity.isPlayer()) AntiReach(entity, hitEntity.getLocation())
+    })
+    client.on("BlockHit", ({ entity, hitBlock }) => {
+        if (entity.isPlayer()) AntiReach(entity, hitBlock.getLocation())
+    })
+    client.on("BlockBreak", ({ player, block }) => {
+        AntiReach(player, block.getLocation())
+    })
+    client.on("ItemUseOn", ({ entity, block }) => {
+        if (entity.isPlayer()) AntiReach(entity, block.getLocation())
+    })
+}
 
-if (config.modules.antiSpeed.enabled) client.on("ProjectileHit", ({ hitEntity }) => {
-    if (hitEntity?.isPlayer()) AntiSpeedHit(hitEntity)
-})
+//Anti Speed
+if (config.modules.antiSpeed.enabled) {
+    client.on("EntityHit", ({ hitEntity }) => {
+        if (hitEntity.isPlayer()) AntiSpeedHit(hitEntity)
+    })
+
+    client.on("ProjectileHit", ({ hitEntity }) => {
+        if (hitEntity?.isPlayer()) AntiSpeedHit(hitEntity)
+    })
+}
 
 client.on("WorldLoad", (world) => {
 
@@ -139,137 +159,4 @@ client.on("Tick", (currentTick) => {
 
 system.events.beforeWatchdogTerminate.subscribe((data) => { data.cancel = true })
 
-export const banDB = client.database.create("ban")
-
-client.commands.create({
-    name: "ban",
-    description: "Ban someone. §2Example: -ban \"Dooka\""
-}, ({ args, player }) => {
-    if (!isAdmin(player)) return player.message(`§7[§9OAC§7] §cYou need to be admin to run this command!`)
-    if (!/(?<=").+?(?=")/.test(args.join(' '))) return player.message(`§7[§9OAC§7] §cYou need to input a player's name! Example: -ban "Dooka"`)
-    const target = args.join(' ').match(/(?<=").+?(?=")/)[0]
-    banDB.set(target, args.join(" ").slice(target.length + 3))
-    client.world.getAllPlayers().find(e => e.getName() === target)?.kick(`§7[§9OAC§7] §cYou have been banned!\n§3Reason: ${args.join(" ").slice(target.length + 3) ?? "No reason specified!"}`)
-    player.message(`§7[§9OAC§7] §3Successfully banned ${target}!`)
-})
-
-client.commands.create({
-    name: 'unban',
-    description: 'Unban someone. §2Example: -unban "L0VE MC"'
-}, ({ args, player }) => {
-    if (!isAdmin(player)) return player.message(`§7[§9OAC§7] §cYou need to be admin to run this command!`)
-    if (!/(?<=").+?(?=")/.test(args.join(' '))) return player.message(`§7[§9OAC§7] §cYou need to input a player's name! Example: -unban "L0VE MC"`)
-    const target = args.join(' ').match(/(?<=").+?(?=")/)[0]
-    if (!banDB.has(target)) return player.message(`§7[§9OAC§7] §cPlayer has not been banned!`)
-    banDB.delete(target)
-    player.message(`§7[§9OAC§7] §3Successfully unbanned ${target}!`)
-})
-
-const bar = new Item("minecraft:iron_bars")
-bar.setName("§r§fHotbar")
-const bar2 = new Item("minecraft:iron_bars")
-bar2.setName("§r§fInventory")
-
-client.commands.create({
-    name: 'invsee',
-    description: "See someone's inventory. §2Example: -invsee \"iBlqzed\"",
-    aliases: ['isee']
-}, ({ args, player }) => {
-    if (!isAdmin(player)) return player.message(`§7[§9OAC§7] §cYou need to be admin to run this command!`)
-    if (!/(?<=").+?(?=")/.test(args.join(' '))) return player.message(`§7[§9OAC§7] §cYou need to input a player's name! Example: -invsee "iBlqzed"`)
-    const target = client.world.getAllPlayers().find(e => e.getName() === args.join(' ').match(/(?<=").+?(?=")/)[0])
-    if (!target) return player.message(`§7[§9OAC§7] §cPlayer is not online!`)
-    player.runCommand(`fill ~~~ ~1~~ chest`)
-    const block = player.getDimension().getBlock(locationFunctions.locationToBlockLocation(player.getLocation()))
-    const blockInv = block.getInventory()
-    const plrInv = target.getInventory()
-    for (let i = 0; i < 36; i++) {
-        if (i === 9) for (let i = 9; i < 27; i++) blockInv.setItem(i, i > 17 ? bar2 : bar)
-        blockInv.setItem(i > 8 ? i + 18 : i, plrInv.getItem(i))
-    }
-    player.message(`§7[§9OAC§7] §3A chest has been placed near you with ${target.getName()}'s inventory.`)
-})
-
-const form = new ActionForm()
-    .setTitle("Admin Menu")
-    .setBody("This is the admin menu")
-    .addButton("§3Ban")
-    .addButton("§bUnban")
-    .addButton("§3Invsee")
-
-const banForm = new ModalForm()
-    .setTitle("Ban Menu")
-    .addTextField("§3The name of the person you want to ban", "Example: Dooka")
-    .addTextField("§3The ban reason", "Example: Hacking")
-
-const unbanForm = new ModalForm()
-    .setTitle("Unban Menu")
-    .addTextField("§3The name of the person you want to unban", "Example: L0VE MC")
-
-const invseeForm = new ModalForm()
-    .setTitle("Invsee Menu")
-    .addTextField("§3The name of the person you want to see the inventory of", "Example: iBlqzed")
-
-client.commands.create({
-    name: "menu",
-    description: "Open the admin menu. §2Example: -menu",
-    aliases: ['adminmenu', 'amenu']
-}, ({ player }) => {
-    if (!isAdmin(player)) return player.message(`§7[§9OAC§7] §cYou need to be admin to run this command!`)
-    const rot = player.getRotation(), loc = player.getLocation()
-    const event = client.on("Tick", () => {
-        if (!client.world.getAllPlayers().find(e => e.getName() === player?.getName())) return client.off(event)
-        const _loc = player.getLocation(), _rot = player.getRotation()
-        if ((_loc.x !== loc.x) || (_loc.y !== loc.y) || (_loc.z !== loc.z) || (_rot.x !== rot.x) || (_rot.y !== rot.y)) {
-            form.show(player).then(({ selection }) => {
-                if (selection === 0) banForm.show(player).then(({ formValues, canceled }) => {
-                    if (canceled) return
-                    if (banDB.has(formValues[0])) return player.message(`§7[§9OAC§7] §c${formValues[0]} has already been banned!`)
-                    banDB.set(formValues[0], formValues[1])
-                    player.message(`§7[§9OAC§7] §3Successfully banned ${formValues[0]}`)
-                })
-                if (selection === 1) unbanForm.show(player).then(({ formValues, canceled }) => {
-                    if (canceled) return
-                    if (!banDB.has(formValues[0])) return player.message(`§7[§9OAC§7] §c${formValues[0]} isn't even banned!`)
-                    banDB.delete(formValues[0])
-                    player.message(`§7[§9OAC§7] §3Successfully unbanned ${formValues[0]}`)
-                })
-                if (selection === 2) invseeForm.show(player).then(({ formValues, canceled }) => {
-                    if (canceled) return
-                    const target = client.world.getAllPlayers().find(plr => plr.getName() === formValues[0])
-                    if (!target) return player.message(`§7[§9OAC§7] §cPlayer is not online!`)
-                    player.runCommand(`fill ~~~ ~1~~ chest`)
-                    const block = player.getDimension().getBlock(locationFunctions.locationToBlockLocation(player.getLocation()))
-                    const blockInv = block.getInventory()
-                    const plrInv = target.getInventory()
-                    for (let i = 0; i < 36; i++) {
-                        if (i === 9) for (let i = 9; i < 27; i++) blockInv.setItem(i, i > 17 ? bar2 : bar)
-                        blockInv.setItem(i > 8 ? i + 18 : i, plrInv.getItem(i))
-                    }
-                    player.message(`§7[§9OAC§7] §3A chest has been placed near you with ${target.getName()}'s inventory.`)
-                })
-            })
-            client.off(event)
-        }
-    })
-})
-
-client.commands.create({
-    name: 'help',
-    description: 'Get help on all commands',
-    aliases: ["h"]
-}, ({ args, player }) => {
-    if (!args[0] || args[0] === '') {
-        let msg = '§7[§9OAC§7] §3All commands\n'
-        client.commands.forEach(e => msg += `§6${e.name.toUpperCase()}: §3${e.description ?? "No description availiable"}\n`)
-        return player.message(msg)
-    }
-    let found = false
-    client.commands.forEach(e => {
-        if (args[0] === e.name) {
-            found = true
-            player.message(`§7[§9OAC§7] §6${e.name.toUpperCase()}: §3${e.description ?? "No description availiable"}`)
-        }
-    })
-    if (!found) player.message(`§7[§9OAC§7] §cNo command found with the name ${args[0]}`)
-})
+import("./Commands/index.js")

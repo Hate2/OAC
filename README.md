@@ -23,7 +23,7 @@
  
  ### Upcoming Features [fixed]<br>
  Anti Chat Spam ★ Better Ban Messages<br>
- Anti Reach ★ Custom Mod Menu
+ Anti Reach ★ Admin Form Menu
 
   ---
 

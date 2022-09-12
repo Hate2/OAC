@@ -1,6 +1,6 @@
 <div align="center">
   
-  ![image](https://user-images.githubusercontent.com/90171285/188550819-ca982970-f832-4c58-b850-7836c10cabf0.png)
+  ![image](https://media.discordapp.net/attachments/974194513767694367/1019022613458202684/Untitled31.png?width=1326&height=201)
 
   ### 🎉 200 Downloads! 🎉<br>
   <img src="https://img.shields.io/github/downloads/Hate2/OAC/total" alt="Downloads"/>

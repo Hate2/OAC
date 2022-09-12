@@ -23,7 +23,7 @@ onPlayerJoin(player => {
 
     //Auto Ban
     const reason = banDB.get(player.getName())
-    if (reason) player.kick(`§7[§9OAC§7] §cYou have been banned!\n§3Reason: ${reason ?? "No reason specified!"}`) && player.runCommand(`event entity @s oac:kick`)
+    reason && player.kick(`§7[§9OAC§7] §cYou have been banned!\n§3Reason: ${reason ?? "No reason specified!"}`)
 
     //Anti Namespoof
     if (config.modules.antiNamespoof.enabled) AntiNamespoof(player)

@@ -30,7 +30,6 @@ export function broadcastMessage(message) {
  */
 export function banPlayer(player, reason) {
     banDB.set(player.getName(), reason)
-    player.setScore("DB_ban2", 100)
     broadcastMessage(`§7[§9OAC§7] §c${JSON.stringify(player.getName()).slice(1, -1)} was banned${reason ? ` due to: §3${reason}` : `!`}`)
     player.kick(`§7[§9OAC§7] §cYou have been banned!\n§3Reason: ${reason ?? "No reason specified!"}`) && player.runCommand(`event entity @s oac:kick`)
 }

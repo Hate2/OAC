@@ -1,6 +1,12 @@
-import { ActionForm, ModalForm } from "../Api/index.js"
+import { ActionForm, ModalForm, locationFunctions, Item } from "../Api/index.js"
 import { banDB, client } from "../index.js"
 import { isAdmin } from "../utils.js"
+
+const bar = new Item("minecraft:iron_bars")
+bar.setName("§r§fHotbar")
+
+const bar2 = new Item("minecraft:iron_bars")
+bar2.setName("§r§fInventory")
 
 const form = new ActionForm()
     .setTitle("Admin Menu")
@@ -29,6 +35,7 @@ client.commands.create({
 }, ({ player }) => {
     if (!isAdmin(player)) return player.message(`§7[§9OAC§7] §cYou need to be admin to run this command!`)
     const rot = player.getRotation(), loc = player.getLocation()
+    player.message(`§7[§9OAC§7] §3Please back out of chat to open the menu!`)
     const event = client.on("Tick", () => {
         if (!client.world.getAllPlayers().find(e => e.getName() === player?.getName())) return client.off(event)
         const _loc = player.getLocation(), _rot = player.getRotation()
@@ -52,12 +59,12 @@ client.commands.create({
                     const target = client.world.getAllPlayers().find(plr => plr.getName() === formValues[0])
                     if (!target) return player.message(`§7[§9OAC§7] §cPlayer is not online!`)
                     player.runCommand(`fill ~~~ ~1~~ chest`)
-                    const block = player.getDimension().getBlock(locationFunctions.locationToBlockLocation(player.getLocation()))
+                    const block = player.getDimension().getBlock(locationFunctions.locationToBlockLocation(_loc))
                     const blockInv = block.getInventory()
                     const plrInv = target.getInventory()
                     for (let i = 0; i < 36; i++) {
                         if (i === 9) for (let i = 9; i < 27; i++) blockInv.setItem(i, i > 17 ? bar2 : bar)
-                        blockInv.setItem(i > 8 ? i + 18 : i, plrInv.getItem(i))
+                        blockInv.setItem((i > 8) ? i + 18 : i, plrInv.getItem(i))
                     }
                     player.message(`§7[§9OAC§7] §3A chest has been placed near you with ${target.getName()}'s inventory.`)
                 })

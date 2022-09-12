@@ -19,11 +19,11 @@
  Anti Speed ★ Anti Nuker<br>
  Anti Fly ★ Anti Bhop<br>
  Anti 32k ★ Anti CBE<br>
- And more 
+ Anti Reach ★ Admin Form Menu<br>
+ And more
  
  ### Upcoming Features [fixed]<br>
- Anti Chat Spam ★ Better Ban Messages<br>
- Anti Reach ★ Admin Form Menu
+ Better Ban Messages ★ Anti Chat Spam
 
   ---
 
@@ -54,6 +54,11 @@
   ### Seeing a players inventory
   ```diff
   Type -invsee "gamertag" in chat
+  ```
+
+  ### Using the menu
+  ```diff
+  Type -menu in chat, then exit chat
   ```
 
   ---

@@ -15,11 +15,11 @@
 
  Anti Namespoof ★ Anti Illegal Items<br>
  Anti Autoclicker ★ Anti Killaura<br>
+ Anti Reach ★ Admin Form Menu<br>
  Anti Noclip ★ Chat Filter<br>
  Anti Speed ★ Anti Nuker<br>
  Anti Fly ★ Anti Bhop<br>
  Anti 32k ★ Anti CBE<br>
- Anti Reach ★ Admin Form Menu<br>
  And more
  
  ### Upcoming Features [fixed]<br>

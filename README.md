@@ -48,17 +48,17 @@
   ```
 
   ### Unbanning someone
-  ```mcfunction
+  ```bash
   Type -unban "gamertag" in chat
   ```
 
   ### Seeing a players inventory
-  ```mcfunction
+  ```bash
   Type -invsee "gamertag" in chat
   ```
 
   ### Using the menu
-  ```mcfunction
+  ```bash
   Type -menu in chat, then exit chat
   ```
 

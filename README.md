@@ -38,12 +38,12 @@
   ```
   
   ### Giving a player staff
-  ```mcfunction 
+  ```bash
   Run the command /scoreboard players set "gamertag" oac_admin 1
   ```
   
   ### Banning someone
-  ```mcfunction
+  ```bash
   Type -ban "gamertag" reason in chat
   ```
 

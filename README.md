@@ -38,7 +38,7 @@
   ```
   
   ### Giving a player staff
-  ```diff
+  ``` mcfunction 
   Run the command /scoreboard players set "gamertag" oac_admin 1
   ```
   

@@ -43,22 +43,22 @@
   ```
   
   ### Banning someone
-  ```bash
+  ```diff
   Type -ban "gamertag" reason in chat
   ```
 
   ### Unbanning someone
-  ```bash
+  ```diff
   Type -unban "gamertag" in chat
   ```
 
   ### Seeing a players inventory
-  ```bash
+  ```diff
   Type -invsee "gamertag" in chat
   ```
 
   ### Using the menu
-  ```bash
+  ```diff
   Type -menu in chat, then exit chat
   ```
 

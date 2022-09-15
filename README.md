@@ -38,27 +38,27 @@
   ```
   
   ### Giving a player staff
-  ``` mcfunction 
+  ```mcfunction 
   Run the command /scoreboard players set "gamertag" oac_admin 1
   ```
   
   ### Banning someone
-  ```diff
+  ```mcfunction
   Type -ban "gamertag" reason in chat
   ```
 
   ### Unbanning someone
-  ```diff
+  ```mcfunction
   Type -unban "gamertag" in chat
   ```
 
   ### Seeing a players inventory
-  ```diff
+  ```mcfunction
   Type -invsee "gamertag" in chat
   ```
 
   ### Using the menu
-  ```diff
+  ```mcfunction
   Type -menu in chat, then exit chat
   ```
 

@@ -2,7 +2,7 @@
   
   ![image](https://media.discordapp.net/attachments/970211181958660127/1019026222979764335/Untitled31_1.png?width=1326&height=201)
 
-  ### 🎉 Over 200 Downloads v1.0! 🎉<br>
+  ### 🎉 Over 300 Downloads v1.0 + v1.1! 🎉<br>
   <img src="https://img.shields.io/github/downloads/Hate2/OAC/total" alt="Downloads"/>
   <img src="https://img.shields.io/github/commit-activity/m/Hate2/OAC" alt="Commits Per Month"/>
   <img src="https://img.shields.io/github/last-commit/Hate2/OAC" alt="Last Commit"/><br>

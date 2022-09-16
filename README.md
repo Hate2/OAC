@@ -24,7 +24,9 @@
  And more
  
  ### Upcoming Features [fixed]<br>
- Better Ban Messages ★ Anti Chat Spam
+ Better Ban Messages ★ Anti Chat Spam<br>
+ Chat Mute & Unmute ★ Added Kick<br>
+ Freeze Players ★ Anti eChest
 
   ---
 

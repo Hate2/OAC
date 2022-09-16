@@ -25,10 +25,11 @@
 ```
  
  ### Upcoming Features [fixed]<br>
+```diff
  Better Ban Messages ★ Anti Chat Spam<br>
  Chat Mute & Unmute ★ Added Kick<br>
  Freeze Players ★ Anti eChest
-
+```
   ---
 
   ![image](https://user-images.githubusercontent.com/90171285/188550662-105b8150-96bf-4f02-ae51-e9ee2890d3fa.png)

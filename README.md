@@ -14,13 +14,13 @@
 
   ![image](https://user-images.githubusercontent.com/90171285/188550636-6bbc1ee2-9b95-4cdc-a982-d1554ddbaebf.png)
 ```diff
- Anti Namespoof ★ Anti Illegal Items<br>
- Anti Autoclicker ★ Anti Killaura<br>
- Anti Reach ★ Admin Form Menu<br>
- Anti Noclip ★ Chat Filter<br>
- Anti Speed ★ Anti Nuker<br>
- Anti Fly ★ Anti Bhop<br>
- Anti 32k ★ Anti CBE<br>
+ Anti Namespoof ★ Anti Illegal Items
+ Anti Autoclicker ★ Anti Killaura
+ Anti Reach ★ Admin Form Menu
+ Anti Noclip ★ Chat Filter
+ Anti Speed ★ Anti Nuker
+ Anti Fly ★ Anti Bhop
+ Anti 32k ★ Anti CBE
  And more
 ```
  

@@ -13,7 +13,7 @@
   ---
 
   ![image](https://user-images.githubusercontent.com/90171285/188550636-6bbc1ee2-9b95-4cdc-a982-d1554ddbaebf.png)
-
+```diff
  Anti Namespoof ★ Anti Illegal Items<br>
  Anti Autoclicker ★ Anti Killaura<br>
  Anti Reach ★ Admin Form Menu<br>
@@ -22,6 +22,7 @@
  Anti Fly ★ Anti Bhop<br>
  Anti 32k ★ Anti CBE<br>
  And more
+```
  
  ### Upcoming Features [fixed]<br>
  Better Ban Messages ★ Anti Chat Spam<br>

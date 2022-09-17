@@ -1,22 +1,21 @@
+import { blockLog } from "../index.js"
 import { banPlayer, setTickTimeout } from "../utils"
 
 export async function AntiNukerBreak({ player, cancel, block, brokenBlockPermutation }) {
-    const log = player.getLog()
-    const old = log.get("blockLog")
-    if (old.time < (Date.now() - 60)) return log.set("blockLog", { time: Date.now(), loc: block.getBlockLocation(), perm: brokenBlockPermutation, amount: old.amount + 1 })
+    const old = blockLog.get(player)
+    if (old.time < (Date.now() - 60)) return blockLog.set(player, { time: Date.now(), loc: block.location, perm: brokenBlockPermutation, amount: old.amount + 1 })
     if (old.amount === 1) {
-        player.getDimension().getBlock(old.loc).setPermutation(old.perm)
+        player.dimension.getBlock(old.loc).setPermutation(old.perm)
         setTickTimeout(() => {
-            player.getDimension().getEntitiesAtLocation(old.loc).filter(entity => entity.getId() === "minecraft:item").forEach(entity => entity.kill())
+            player.dimension.getEntitiesAtLocation(old.loc).filter(entity => entity.id === "minecraft:item").forEach(entity => entity.kill())
         }, 0)
     }
     cancel()
-    log.set("blockLog", { time: Date.now(), loc: block.getBlockLocation(), perm: brokenBlockPermutation, amount: old.amount + 1 })
+    blockLog.set(player, { time: Date.now(), loc: block.location, perm: brokenBlockPermutation, amount: old.amount + 1 })
 }
 
 export async function AntiNukerTick(player) {
-    const log = player.getLog()
-    const blockLog = log.get("blockLog")
+    const blockLog = blockLog.get(player)
     if (blockLog.amount >= 5) banPlayer(player, "Nuking")
-    log.set("blockLog", Object.assign(blockLog, { amount: 0 }))
+    blockLog.set(player, Object.assign(blockLog, { amount: 0 }))
 }

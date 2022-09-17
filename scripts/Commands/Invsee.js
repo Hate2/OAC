@@ -1,28 +1,29 @@
-import { Item, locationFunctions } from "../Api/index.js"
-import { client } from "../index.js"
-import { isAdmin } from "../utils.js"
+import { Items, ItemStack, world } from "mojang-minecraft"
+import { Command } from "../Classes/Command.js"
+import { isAdmin, locationFunctions, messagePlayer } from "../utils.js"
 
-const bar = new Item("minecraft:iron_bars")
-bar.setName("§r§fHotbar")
-const bar2 = new Item("minecraft:iron_bars")
-bar2.setName("§r§fInventory")
+const bar = new ItemStack(Items.get("minecraft:iron_bars"))
+bar.nameTag = "§r§fHotbar"
+const bar2 = new ItemStack(Items.get("minecraft:iron_bars"))
+bar2.nameTag = "§r§fInventory"
+const air = new ItemStack(Items.get("minecraft:air"))
 
-client.commands.create({
+new Command({
     name: 'invsee',
     description: "See someone's inventory. §2Example: -invsee \"iBlqzed\"",
-    aliases: ['isee']
+    aliases: ['isee'],
+    permission: (plr) => isAdmin(plr)
 }, ({ args, player }) => {
-    if (!isAdmin(player)) return player.message(`§7[§9OAC§7] §cYou need to be admin to run this command!`)
-    if (!/(?<=").+?(?=")/.test(args.join(' '))) return player.message(`§7[§9OAC§7] §cYou need to input a player's name! Example: -invsee "iBlqzed"`)
-    const target = client.world.getAllPlayers().find(e => e.getName() === args.join(' ').match(/(?<=").+?(?=")/)[0])
-    if (!target) return player.message(`§7[§9OAC§7] §cPlayer is not online!`)
+    if (!/(?<=").+?(?=")/.test(args.join(' '))) return messagePlayer(player, `§7[§9OAC§7] §cYou need to input a player's name! Example: -invsee "iBlqzed"`)
+    const target = Array.from(world.getPlayers()).find(e => e.name === args.join(' ').match(/(?<=").+?(?=")/)[0])
+    if (!target) return messagePlayer(player, `§7[§9OAC§7] §cPlayer is not online!`)
     player.runCommand(`fill ~~~ ~1~~ chest`)
-    const block = player.getDimension().getBlock(locationFunctions.locationToBlockLocation(player.getLocation()))
-    const blockInv = block.getInventory()
-    const plrInv = target.getInventory()
+    const block = player.dimension.getBlock(locationFunctions.locationToBlockLocation(player.location))
+    const blockInv = block.getComponent("inventory").container
+    const plrInv = target.getComponent("inventory").container
     for (let i = 0; i < 36; i++) {
         if (i === 9) for (let i = 9; i < 27; i++) blockInv.setItem(i, i > 17 ? bar2 : bar)
-        blockInv.setItem(i > 8 ? i + 18 : i, plrInv.getItem(i))
+        blockInv.setItem(i > 8 ? i + 18 : i, plrInv.getItem(i) ?? air)
     }
-    player.message(`§7[§9OAC§7] §3A chest has been placed near you with ${target.getName()}'s inventory.`)
+    messagePlayer(player, `§7[§9OAC§7] §3A chest has been placed near you with ${target.name}'s inventory.`)
 })

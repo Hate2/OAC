@@ -1,5 +1,6 @@
-import { system } from 'mojang-minecraft'
-import { Client } from './Api/index.js'
+import { system, world } from 'mojang-minecraft'
+import { Database } from './Classes/Database.js'
+import { PlayerLog } from './Classes/PlayerLog.js'
 import { config } from './globalVars.js'
 import { Anti32k } from './Modules/Anti32k.js'
 import { AntiAutoClickerHit, AntiAutoClickerTick } from './Modules/AntiAutoClicker.js'
@@ -10,121 +11,128 @@ import { AntiNamespoof } from './Modules/AntiNamespoof.js'
 import { AntiNoClip } from './Modules/AntiNoClip.js'
 import { AntiNukerBreak, AntiNukerTick } from './Modules/AntiNuker.js'
 import { AntiReach } from './Modules/AntiReach.js'
-import { AntiSpeedHit, AntiSpeedTick } from './Modules/AntiSpeed.js'
+// import { AntiSpeedHit, AntiSpeedTick } from './Modules/AntiSpeed.js'
 import { ChatFilter } from './Modules/ChatFilter.js'
-import { banPlayer, isAdmin, onPlayerJoin, setTickTimeout } from "./utils.js"
+import { banPlayer, isAdmin, messagePlayer, onPlayerJoin, onWorldLoad, runCommand, setTickTimeout } from "./utils.js"
 
-export const client = new Client({ command: { enabled: true, invalidCommandError: `§7[§9OAC§7] §cInvalid command` } })
-export const banDB = client.database.create("ban")
+//Making databases
+export const banDB = new Database("ban")
+export const muteDB = new Database("mute")
 
-if (config.modules.chatFilter.enabled) client.on("Chat", ChatFilter)
+//Making player logs
+export const cpsLog = new PlayerLog()
+export const killauraLog = new PlayerLog()
+export const gamemodeLog = new PlayerLog()
+export const posLog = new PlayerLog()
+export const speedLog = new PlayerLog()
+export const hitLog = new PlayerLog()
+export const blockLog = new PlayerLog()
+
+//Chat Filter
+if (config.modules.chatFilter.enabled) world.events.beforeChat.subscribe(data => {
+    if (data.message.startsWith(config.commandPrefix)) return
+    if (ChatFilter({ player: data.sender, message: data.message })) data.cancel = true
+})
 
 onPlayerJoin(player => {
 
     //Auto Ban
-    const reason = banDB.get(player.getName())
-    reason && player.kick(`§7[§9OAC§7] §cYou have been banned!\n§3Reason: ${reason ?? "No reason specified!"}`)
+    const reason = banDB.get(player.name)
+    reason && player.runCommandAsync(`§7[§9OAC§7] §cYou have been banned!\n§3Reason: ${reason ?? "No reason specified!"}`)
 
     //Anti Namespoof
     if (config.modules.antiNamespoof.enabled) AntiNamespoof(player)
 
     //Setting player's logs
-    const log = player.getLog()
-    if (config.modules.antiAutoclicker.enabled) log.set("cps", [])
-    if (config.modules.antiKillaura.enabled) log.set("killaura", [])
-    if (config.modules.antiGMC.enabled) log.set("gamemode", "survival")
-    if (config.modules.antiNoClip.enabled || config.modules.antiSpeed.enabled) log.set("pos", player.getLocation())
+    if (config.modules.antiAutoclicker.enabled) cpsLog.set(player, [])
+    if (config.modules.antiKillaura.enabled) killauraLog.set(player, [])
+    if (config.modules.antiGMC.enabled) gamemodeLog.set(player, "survival")
+    if (config.modules.antiNoClip.enabled || config.modules.antiSpeed.enabled) posLog.set(player, player.location)
     if (config.modules.antiSpeed.enabled) {
-        log.set("wasHit", 0)
-        log.set("speedFlags", 0)
+        hitLog.set(player, 0)
+        speedLog.set(player, 0)
     }
-    if (config.modules.antiNuker.enabled) log.set("blockLog", { time: Date.now(), loc: undefined, blockPerm: undefined, amount: 0 })
+    if (config.modules.antiNuker.enabled) blockLog.set(player, { time: Date.now(), loc: undefined, blockPerm: undefined, amount: 0 })
 
     setTickTimeout(() => {
-        player.message(`§7[§9OAC§7] §3Odin Anti Cheat is running!`)
-        player.runCommand(`playsound note.pling @s`)
-    }, 100)
+        messagePlayer(player, `§7[§9OAC§7] §3Odin Anti Cheat is running!`)
+        player.runCommandAsync(`playsound note.pling @s`)
+    }, 40)
 })
 
 //Anti AutoClicker
-if (config.modules.antiAutoclicker.enabled) client.on("EntityHit", ({ entity }) => {
-    entity.isPlayer() && !isAdmin(entity) && AntiAutoClickerHit(entity)
-})
+if (config.modules.antiAutoclicker.enabled) world.events.entityHit.subscribe(({ entity }) => entity.id === "minecraft:player" && !isAdmin(entity) && AntiAutoClickerHit(entity))
 
 //Anti KillAura
-if (config.modules.antiKillaura.enabled) client.on("EntityHit", ({ entity, hitEntity }) => {
-    if (entity.isPlayer() && entity.getEntitiesFromViewVector()[0]?.getId() !== hitEntity.getId()) AntiKillAuraHit(entity)
+if (config.modules.antiKillaura.enabled) world.events.entityHit.subscribe(({ entity, hitEntity }) => {
+    if (entity.id === "minecraft:player" && entity.getEntitiesFromViewVector()[0]?.id !== hitEntity?.id) AntiKillAuraHit(entity)
 })
 
 //Anti Reach
 if (config.modules.antiReach.enabled) {
-    client.on("EntityHit", ({ entity, hitEntity }) => {
-        if (entity.isPlayer()) AntiReach(entity, hitEntity.getLocation())
-    })
-    client.on("BlockHit", ({ entity, hitBlock }) => {
-        if (entity.isPlayer()) AntiReach(entity, hitBlock.getLocation())
-    })
-    client.on("BlockBreak", ({ player, block }) => {
-        AntiReach(player, block.getLocation())
-    })
-    client.on("ItemUseOn", ({ entity, block }) => {
-        if (entity.isPlayer()) AntiReach(entity, block.getLocation())
-    })
+    world.events.entityHit.subscribe(({ entity, hitEntity, hitBlock }) => entity.id === "minecraft:player" && !isAdmin(entity) && AntiReach(entity, (hitBlock ?? hitEntity).location))
+    world.events.blockBreak.subscribe(({ player, block }) => !isAdmin(player) && AntiReach(player, block.location))
+    world.events.beforeItemUseOn.subscribe(({ source, blockLocation }) => source.id === "minecraft:player" && !isAdmin(source) && AntiReach(source, blockLocation))
 }
 
 //Anti Speed
-if (config.modules.antiSpeed.enabled) {
-    client.on("EntityHit", ({ hitEntity }) => {
-        if (hitEntity.isPlayer()) AntiSpeedHit(hitEntity)
-    })
+// if (config.modules.antiSpeed.enabled) {
+//     world.events.entityHit.subscribe(({ hitEntity }) => hitEntity.id === "minecraft:player" && !isAdmin(hitEntity) && AntiSpeedHit(hitEntity))
+//     world.events.projectileHit.subscribe(({ entityHit }) => entityHit?.entity?.id === "minecraft:player" && !isAdmin(entityHit.entity) && AntiSpeedHit(entityHit.entity))
+// }
 
-    client.on("ProjectileHit", ({ hitEntity }) => {
-        if (hitEntity?.isPlayer()) AntiSpeedHit(hitEntity)
-    })
-}
-
-client.on("WorldLoad", (world) => {
+onWorldLoad(() => {
 
     //Making admin scoreboard
-    client.runCommand(`scoreboard objectives add ${config.adminScoreboard} dummy`)
-    world.getAllPlayers().forEach(player => {
+    runCommand(`scoreboard objectives add ${config.adminScoreboard} dummy`)
+    Array.from(world.getPlayers()).forEach(player => {
 
         //Setting player's logs
-        const log = player.getLog()
-        if (config.modules.antiAutoclicker.enabled) log.set("cps", [])
-        if (config.modules.antiKillaura.enabled) log.set("killaura", [])
-        if (config.modules.antiGMC.enabled) log.set("gamemode", "survival")
-        if (config.modules.antiNoClip.enabled || config.modules.antiSpeed.enabled) log.set("pos", player.getLocation())
+        if (config.modules.antiAutoclicker.enabled) cpsLog.set(player, [])
+        if (config.modules.antiKillaura.enabled) killauraLog.set(player, [])
+        if (config.modules.antiGMC.enabled) gamemodeLog.set(player, "survival")
+        if (config.modules.antiNoClip.enabled || config.modules.antiSpeed.enabled) posLog.set(player, player.location)
         if (config.modules.antiSpeed.enabled) {
-            log.set("wasHit", 0)
-            log.set("speedFlags", 0)
+            hitLog.set(player, 0)
+            speedLog.set(player, 0)
         }
-        if (config.modules.antiNuker.enabled) log.set("blockLog", { time: Date.now(), loc: undefined, blockPerm: undefined, amount: 0 })
+        if (config.modules.antiNuker.enabled) blockLog.set(player, { time: Date.now(), loc: undefined, blockPerm: undefined, amount: 0 })
     })
 })
 
 //Anti Nuker
-if (config.modules.antiNuker.enabled) client.on("BlockBreak", (data) => {
-    if (!isAdmin(data.player)) AntiNukerBreak(data)
+if (config.modules.antiNuker.enabled) world.events.blockBreak.subscribe((data) => {
+    AntiNukerBreak({
+        player: data.player,
+        block: data.block,
+        brokenBlockPermutation: data.brokenBlockPermutation,
+        cancel: () => {
+            data.block.setPermutation(data.brokenBlockPermutation)
+            setTickTimeout(() => {
+                data.player.dimension.getEntitiesAtBlockLocation(data.block.location).forEach(entity => entity.id === "minecraft:item" && entity.kill())
+            }, 0)
+        }
+    })
 })
 
-client.on("Tick", (currentTick) => {
+
+world.events.tick.subscribe(({ currentTick }) => {
     if (currentTick % 2 !== 0) return
-    const players = client.world.getAllPlayers()
-    for (const player of players) {
+    Array.from(world.getPlayers()).forEach(player => {
+
+        if (currentTick % 100 === 0 && muteDB.get(player.name) < Date.now()) muteDB.delete(player.name)
 
         //Admin bypass
-        if (isAdmin(player)) continue
+        if (isAdmin(player)) return
 
         //Anti BadPackets
-        if (player.getSelectedSlot() > 8 || player.getSelectedSlot() < 0) banPlayer(player, `Bad packets`)
+        if (player.selectedSlot > 8 || player.selectedSlot < 0) banPlayer(player, `Bad packets`)
 
         //Anti Nuker
         if (config.modules.antiNuker.enabled) AntiNukerTick(player)
 
-
         //Inventory stuff
-        const inv = player.getInventory(), { size } = inv
+        const inv = player.getComponent("inventory").container, { size } = inv
         for (let i = 0; i < size; i++) {
             const item = inv.getItem(i)
             if (!item) continue
@@ -133,7 +141,7 @@ client.on("Tick", (currentTick) => {
             if (config.modules.antiIllegalItems.enabled) AntiIllegalItems(player, item)
 
             //Anti 32k
-            if (config.modules.anti32k.enabled) Anti32k(player, item)
+            if (config.modules.anti32k.enabled) Anti32k(player, item, i)
         }
 
         //Anti Killaura
@@ -143,18 +151,18 @@ client.on("Tick", (currentTick) => {
         if (config.modules.antiNoClip.enabled) AntiNoClip(player)
 
         //Anti Speed
-        if (config.modules.antiSpeed.enabled) AntiSpeedTick(player, currentTick)
-        if (config.modules.antiAutoclicker.enabled || config.modules.antiSpeed.enabled) player.getLog().set("pos", player.getLocation())
+        // if (config.modules.antiSpeed.enabled) AntiSpeedTick(player, currentTick)
+        if (config.modules.antiAutoclicker.enabled) posLog.set(player, player.location)
 
         //Anti AutoClicker
         if (config.modules.antiAutoclicker.enabled) AntiAutoClickerTick(player)
 
         //Trusted tag
-        if (player.hasTag(config.trustedTag)) continue
+        if (player.hasTag(config.trustedTag)) return
 
         //Anti GMC
         if (config.modules.antiGMC.enabled) AntiGMC(player)
-    }
+    })
 })
 
 system.events.beforeWatchdogTerminate.subscribe((data) => { data.cancel = true })

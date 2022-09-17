@@ -8,15 +8,24 @@ export class Database {
      * Create a new database!
      */
     constructor(name) {
+        /**
+         * @private
+         */
         this.data = new Map();
+        /**
+         * @private
+         */
         this.name = name.replace(/"/g, '\\"');
         if (names.includes(this.name))
             throw new Error(`You can't have 2 of the same databases`);
         if (this.name.length > 13 || this.name.length === 0)
             throw new Error(`Database names can't be more than 13 characters long, and it can't be nothing!`);
         names.push(this.name);
-        runCommand(`scoreboard objectives add "DB_${this.name}" dummy`);
-        world.scoreboard.getObjective(`DB_${this.name}`).getParticipants().forEach(e => this.data.set(e.displayName.split("_")[0].replace(/\\"/g, '"'), JSON.parse(e.displayName.split("_").filter((v, i) => i > 0).join("_").replace(/\\"/g, '"'))));
+        runCommand(`scoreboard objectives add DB_${this.name} dummy`);
+        world.scoreboard.getObjective(`DB_${this.name}`).getParticipants().forEach((e) => {
+            const dis = JSON.parse(e.displayName.replace(/\\"/g, '"'));
+            this.data.set(dis[0], dis[1]);
+        });
     }
     /**
      * The length of the database
@@ -30,12 +39,10 @@ export class Database {
      * @param {any} value The value
      */
     set(key, value) {
-        if (key.includes('_'))
-            throw new TypeError(`Database keys can't include "_"`);
-        if ((JSON.stringify(value).replace(/"/g, '\\"').length + key.replace(/"/g, '\\"').length + 1) >= 32767)
+        if ((JSON.stringify(value).replace(/"/g, '\\"').length + key.replace(/"/g, '\\"').length + 3) >= 32767)
             throw new Error(`Database setter to long... somehow`);
         this.delete(key);
-        runCommand(`scoreboard players set "${key.replace(/"/g, '\\"')}_${JSON.stringify(value).replace(/"/g, '\\"')}" "DB_${this.name}" 0`);
+        runCommand(`scoreboard players set "[\\"${key.replace(/"/g, '\\"')}\\",${JSON.stringify(value).replace(/"/g, '\\"')}]" "DB_${this.name}" 0`);
         this.data.set(key, value);
     }
     /**
@@ -64,7 +71,7 @@ export class Database {
     delete(key) {
         if (!this.data.has(key))
             return;
-        runCommand(`scoreboard players reset "${key.replace(/"/g, '\\"')}_${JSON.stringify(this.data.get(key)).replace(/"/g, '\\"')}" "DB_${this.name}"`);
+        runCommand(`scoreboard players reset "[\\"${key.replace(/"/g, '\\"')}\\",${JSON.stringify(this.data.get(key)).replace(/"/g, '\\"')}]" "DB_${this.name}"`);
         this.data.delete(key);
     }
     /**

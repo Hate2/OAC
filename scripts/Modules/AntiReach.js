@@ -8,5 +8,5 @@ function isReach(p1, p2) {
 }
 
 export async function AntiReach(player, loc) {
-    if (isReach(player.getLocation(), loc)) banPlayer(player, "Using reach!")
+    if (isReach(player.location, loc)) banPlayer(player, "Using reach!")
 }

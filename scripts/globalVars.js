@@ -11,6 +11,7 @@
 export const config = {
     trustedTag: "trusted",
     adminScoreboard: 'oac_admin',
+    commandPrefix: '-',
     modules: {
         anti32k: {
             enabled: true
@@ -21,6 +22,9 @@ export const config = {
             cpsBanLimit: 25
         },
         antiGMC: {
+            enabled: true
+        },
+        antiGive: {
             enabled: true
         },
         antiIllegalItems: {
@@ -115,9 +119,9 @@ export const config = {
             enabled: true,
             reachLimit: 7
         },
-        antiSpeed: {
-            enabled: true
-        },
+        // antiSpeed: {
+        //     enabled: false
+        // },
         chatFilter: {
             enabled: true,
             messages: [
@@ -158,7 +162,7 @@ export const notFullBlocks = [
 ]
 
 export const notFullBlocksIncludes = [
-    "stairs",
+    "stair",
     "door",
     "coral",
     "chest",

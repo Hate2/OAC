@@ -40,6 +40,7 @@ export function messagePlayer(player, message) {
 export function banPlayer(player, reason) {
     banDB.set(player.name, reason)
     broadcastMessage(`§7[§9OAC§7] §c${JSON.stringify(player.name).slice(1, -1)} was banned${reason ? ` due to: §3${reason}` : `!`}`)
+    player.runCommandAsync(`scoreboard players set @s oac_bans 1`)
     player.runCommandAsync(`kick ${JSON.stringify(player.name)} §7[§9OAC§7] §cYou have been banned!\n§3Reason: ${reason ?? "No reason specified!"}`)
 }
 
@@ -153,8 +154,8 @@ export function setTickTimeout(callback, tick) {
  */
 export function runCommand(cmd, executor = undefined) {
     try {
-        if (executor) return { error: false, data: executor.runCommand(cmd) }
-        return { error: false, data: world.getDimension('overworld').runCommand(cmd) }
+        if (executor) return { error: false, data: executor.runCommandAsync(cmd) }
+        return { error: false, data: world.getDimension('overworld').runCommandAsync(cmd) }
     } catch (e) {
         return { error: true, data: e }
     }

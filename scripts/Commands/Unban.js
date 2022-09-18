@@ -1,5 +1,5 @@
 import { Command } from "../Classes/Command.js"
-import { banDB } from "../index.js"
+import { banDB, unbanDB } from "../index.js"
 import { isAdmin, messagePlayer } from "../utils.js"
 
 new Command({
@@ -11,5 +11,6 @@ new Command({
     const target = args.join(' ').match(/(?<=").+?(?=")/)[0]
     if (!banDB.has(target)) return messagePlayer(player, `§7[§9OAC§7] §cPlayer has not been banned!`)
     banDB.delete(target)
+    unbanDB.set(target, true)
     messagePlayer(player, `§7[§9OAC§7] §3Successfully unbanned ${target}!`)
 })

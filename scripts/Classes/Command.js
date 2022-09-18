@@ -3,7 +3,6 @@ import { config } from "../globalVars"
 import { messagePlayer } from "../utils"
 
 export class Command {
-    static registeredCommands = []
     /**
      * Register a new command!
      * @param {{name: string, description: string, aliases?: string[], permission?: (player: Player) => boolean}} info Command info
@@ -19,6 +18,7 @@ export class Command {
         })
     }
 }
+Command.registeredCommands = []
 
 world.events.beforeChat.subscribe((data) => {
     const { message } = data

@@ -10,7 +10,11 @@ new Command({
 }, ({ args, player }) => {
     if (!/(?<=").+?(?=")/.test(args.join(' '))) return messagePlayer(player, `§7[§9OAC§7] §cYou need to input a player's name! Example: -ban "Dooka"`)
     const target = args.join(' ').match(/(?<=").+?(?=")/)[0]
-    banDB.set(target, args.join(" ").slice(target.length + 3))
-    Array.from(world.getPlayers()).find(plr => plr.name === target)?.runCommandAsync(`kick "${target}" §7[§9OAC§7] §cYou have been banned!\n§3Reason: ${args.join(" ").slice(target.length + 3) ?? "No reason specified!"}`)
+    banDB.set(target, args.join(" ").slice(target.length + 3) ?? "No reason specified!")
+    const plr = Array.from(world.getPlayers()).find(plr => plr.name === target)
+    if (plr) {
+        plr.runCommandAsync(`scoreboard players set @s oac_bans 1`)
+        plr.runCommandAsync(`kick "${target}" §7[§9OAC§7] §cYou have been banned!\n§3Reason: ${args.join(" ").slice(target.length + 3) ?? "No reason specified!"}`)
+    }
     messagePlayer(player, `§7[§9OAC§7] §3Successfully banned ${target}!`)
 })

@@ -13,10 +13,11 @@ import { AntiNukerBreak, AntiNukerTick } from './Modules/AntiNuker.js'
 import { AntiReach } from './Modules/AntiReach.js'
 // import { AntiSpeedHit, AntiSpeedTick } from './Modules/AntiSpeed.js'
 import { ChatFilter } from './Modules/ChatFilter.js'
-import { banPlayer, isAdmin, messagePlayer, onPlayerJoin, onWorldLoad, runCommand, setTickTimeout } from "./utils.js"
+import { banPlayer, getScore, isAdmin, messagePlayer, onPlayerJoin, onWorldLoad, runCommand, setTickTimeout } from "./utils.js"
 
 //Making databases
 export const banDB = new Database("ban")
+export const unbanDB = new Database("unban")
 export const muteDB = new Database("mute")
 
 //Making player logs
@@ -37,8 +38,16 @@ if (config.modules.chatFilter.enabled) world.events.beforeChat.subscribe(data =>
 onPlayerJoin(player => {
 
     //Auto Ban
+    if (unbanDB.has(player.name)) {
+        player.runCommandAsync(`scoreboard players reset @s oac_bans`)
+        banDB.delete(player.name)
+    }
     const reason = banDB.get(player.name)
-    reason && player.runCommandAsync(`§7[§9OAC§7] §cYou have been banned!\n§3Reason: ${reason ?? "No reason specified!"}`)
+    if (reason) {
+        player.runCommandAsync(`scoreboard players set @s oac_bans 1`)
+        return player.runCommandAsync(`kick ${JSON.stringify(player.name)} §7[§9OAC§7] §cYou have been banned!\n§3Reason: ${reason}`)
+    }
+    if (!reason && getScore("oac_bans", player, true) > 0) player.runCommandAsync(`kick ${JSON.stringify(player.name)} §7[§9OAC§7] §cYou have been banned!\n§3Reason: Trying to bypass the anti cheat`)
 
     //Anti Namespoof
     if (config.modules.antiNamespoof.enabled) AntiNamespoof(player)
@@ -85,6 +94,7 @@ onWorldLoad(() => {
 
     //Making admin scoreboard
     runCommand(`scoreboard objectives add ${config.adminScoreboard} dummy`)
+    runCommand(`scoreboard objectives add oac_bans dummy`)
     Array.from(world.getPlayers()).forEach(player => {
 
         //Setting player's logs

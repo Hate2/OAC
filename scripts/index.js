@@ -57,10 +57,6 @@ onPlayerJoin(player => {
     if (config.modules.antiKillaura.enabled) killauraLog.set(player, [])
     if (config.modules.antiGMC.enabled) gamemodeLog.set(player, "survival")
     if (config.modules.antiNoClip.enabled || config.modules.antiSpeed.enabled) posLog.set(player, player.location)
-    if (config.modules.antiSpeed.enabled) {
-        hitLog.set(player, 0)
-        speedLog.set(player, 0)
-    }
     if (config.modules.antiNuker.enabled) blockLog.set(player, { time: Date.now(), loc: undefined, blockPerm: undefined, amount: 0 })
 
     setTickTimeout(() => {
@@ -102,10 +98,6 @@ onWorldLoad(() => {
         if (config.modules.antiKillaura.enabled) killauraLog.set(player, [])
         if (config.modules.antiGMC.enabled) gamemodeLog.set(player, "survival")
         if (config.modules.antiNoClip.enabled || config.modules.antiSpeed.enabled) posLog.set(player, player.location)
-        if (config.modules.antiSpeed.enabled) {
-            hitLog.set(player, 0)
-            speedLog.set(player, 0)
-        }
         if (config.modules.antiNuker.enabled) blockLog.set(player, { time: Date.now(), loc: undefined, blockPerm: undefined, amount: 0 })
     })
 })

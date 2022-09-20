@@ -11,7 +11,7 @@
   [OAC Showcase Video](https://youtu.be/sJks4fBk6t8)<br>
 
   ```mcfunction
-We have reconized the false ban issue in v1.1 js. This will be fixed next realeas.
+We have reconized the false ban issue in v1.1 js. This will be fixed next releas.
   ```
 
   ---

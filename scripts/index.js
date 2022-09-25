@@ -70,12 +70,12 @@ if (config.modules.antiAutoclicker.enabled) world.events.entityHit.subscribe(({ 
 
 //Anti KillAura
 if (config.modules.antiKillaura.enabled) world.events.entityHit.subscribe(({ entity, hitEntity }) => {
-    if (entity.id === "minecraft:player" && entity.getEntitiesFromViewVector()[0]?.id !== hitEntity?.id) AntiKillAuraHit(entity)
+    if (hitEntity && (entity.id === "minecraft:player") && entity.getEntitiesFromViewVector()[0]?.id !== hitEntity.id) AntiKillAuraHit(entity)
 })
 
 //Anti Reach
 if (config.modules.antiReach.enabled) {
-    world.events.entityHit.subscribe(({ entity, hitEntity, hitBlock }) => entity.id === "minecraft:player" && !isAdmin(entity) && AntiReach(entity, (hitBlock ?? hitEntity).location))
+    world.events.entityHit.subscribe(({ entity, hitEntity, hitBlock }) => !hitBlock && entity.id === "minecraft:player" && !isAdmin(entity) && AntiReach(entity, hitEntity.location))
     world.events.blockBreak.subscribe(({ player, block }) => !isAdmin(player) && AntiReach(player, block.location))
     world.events.beforeItemUseOn.subscribe(({ source, blockLocation }) => source.id === "minecraft:player" && !isAdmin(source) && AntiReach(source, blockLocation))
 }

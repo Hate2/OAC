@@ -154,8 +154,8 @@ export function setTickTimeout(callback, tick) {
  */
 export function runCommand(cmd, executor = undefined) {
     try {
-        if (executor) return { error: false, data: executor.runCommandAsync(cmd) }
-        return { error: false, data: world.getDimension('overworld').runCommandAsync(cmd) }
+        if (executor) return { error: false, data: executor.runCommand(cmd) }
+        return { error: false, data: world.getDimension('overworld').runCommand(cmd) }
     } catch (e) {
         return { error: true, data: e }
     }
@@ -284,4 +284,20 @@ export function toMS(value) {
     if (/\d+(?=d)/i.test(value)) return number * 8.64e+7
     if (/\d+(?=w)/i.test(value)) return number * 6.048e+8
     if (/\d+(?=y)/i.test(value)) return number * 3.154e+10
+}
+
+/**
+ * Get the gamemode of a player
+ * @param {Player} player Player to get the gamemode of
+ * @returns {"survival" | "creative" | "adventure" | "unknown"} The gamemode of the player
+ * @example getGamemode(player) //Returns the gamemode of the player
+ */
+export function getGamemode(player) {
+    const sT = runCommand(`testfor @s[m=0]`, player).error
+    if (!sT) return 'survival'
+    const cT = runCommand(`testfor @s[m=1]`, player).error
+    if (!cT) return 'creative'
+    const aT = runCommand(`testfor @s[m=2]`, player).error
+    if (!aT) return 'adventure'
+    return 'unknown'
 }

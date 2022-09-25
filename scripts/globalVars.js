@@ -104,7 +104,7 @@ export const config = {
         },
         antiKillaura: {
             enabled: true,
-            flagAmount: 10
+            flagAmount: 12
         },
         antiNamespoof: {
             enabled: true
@@ -117,7 +117,7 @@ export const config = {
         },
         antiReach: {
             enabled: true,
-            reachLimit: 7
+            reachLimit: 7.5
         },
         // antiSpeed: {
         //     enabled: false

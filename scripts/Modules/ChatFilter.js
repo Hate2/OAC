@@ -11,7 +11,7 @@ export function ChatFilter({ player, message }) {
         return true
     }
     if (message.length > 200 || message.length === 0) return true
-    if (message.toUpperCase() === message && message.length > 4) {
+    if ((message.toUpperCase() === message && message.length > 4) && !Number(message)) {
         messagePlayer(player, `§7[§9OAC§7] §cMessages are not allowed to be in all caps!`)
         return true
     }

@@ -2,7 +2,7 @@
   
   ![image](https://media.discordapp.net/attachments/970211181958660127/1019026222979764335/Untitled31_1.png?width=1326&height=201)
 
-  ### 🎉 Over 500 Downloads v1.0 + v1.1! 🎉<br>
+  ### 🎉 Over 700 Downloads v1.0 + v1.1! 🎉<br>
   <a href="https://github.com/Hate2/OAC/releases/tag/V1.1"><img src="https://img.shields.io/static/v1?label=download&message=latest&color=12c970&logo=docusign&logoColor=white" alt="Download Injector" /></a>
   <img src="https://img.shields.io/github/last-commit/Hate2/OAC" alt="Last Commit"/>
   <img src="https://img.shields.io/github/downloads/Hate2/OAC/total" alt="Downloads"/><br>
@@ -13,6 +13,7 @@
   ---
 
   ![image](https://user-images.githubusercontent.com/90171285/188550636-6bbc1ee2-9b95-4cdc-a982-d1554ddbaebf.png)
+  
 ```diff
  Anti Namespoof ★ Anti Illegal Items
  Anti Autoclicker ★ Anti Killaura
@@ -23,8 +24,8 @@
  Anti 32k ★ Anti CBE
  And more
 ```
- 
- ### Upcoming Features [fixed]<br>
+ ### We have reconized the false ban issue in v1.1. This will be fixed next releases.
+Upcoming Features [fixed]<br>
 ```diff
  Better Ban Messages ★ Anti Chat Spam
  Chat Mute & Unmute ★ Added Kick
@@ -35,7 +36,7 @@
   ![image](https://user-images.githubusercontent.com/90171285/188550662-105b8150-96bf-4f02-ae51-e9ee2890d3fa.png)
 
   ### Setup
-  ```mcfunction
+  ```bash
   Enable {experimental} gametest features on your world
   Apply the pack to the world (put it at the top of the list)
   Run the command /scoreboard players set @s oac_admin 1

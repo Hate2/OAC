@@ -14,9 +14,6 @@
 
   ![image](https://user-images.githubusercontent.com/90171285/188550636-6bbc1ee2-9b95-4cdc-a982-d1554ddbaebf.png)
   
-### We have reconized the false ban issue in v1.1. This will be fixed next releases.
-
-
 ```diff
  Anti Namespoof ★ Anti Illegal Items
  Anti Autoclicker ★ Anti Killaura
@@ -27,7 +24,8 @@
  Anti 32k ★ Anti CBE
  And more
 ```
- 
+ ### We have reconized the false ban issue in v1.1. This will be fixed next releases.
+--
  ### Upcoming Features [fixed]<br>
 ```diff
  Better Ban Messages ★ Anti Chat Spam

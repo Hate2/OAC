@@ -13,9 +13,9 @@
   ---
 
   ![image](https://user-images.githubusercontent.com/90171285/188550636-6bbc1ee2-9b95-4cdc-a982-d1554ddbaebf.png)
-  ```mcfunction
-We have reconized the false ban issue in v1.1. This will be fixed next releases.
-  ```
+  
+### We have reconized the false ban issue in v1.1. This will be fixed next releases.
+
 
 ```diff
  Anti Namespoof ★ Anti Illegal Items

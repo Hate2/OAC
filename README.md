@@ -37,7 +37,7 @@ Upcoming Features [fixed]<br>
 
   ### Setup
   ```bash
-  Enable {experimental} gametest features on your world
+  ### Enable {experimental} gametest features on your world
   Apply the pack to the world (put it at the top of the list)
   Run the command /scoreboard players set @s oac_admin 1
   ```

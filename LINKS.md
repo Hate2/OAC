@@ -30,4 +30,14 @@ post to your profile.
 
   ---
 
+  ![image](https://media.discordapp.net/attachments/974194513767694367/1024214391635333200/Untitled33.png)
+
+```diff
+Upvote OAC on reddit, and get our anti-cheat to the top 
+of the post community.  
+```
+[Reddit Link](https://www.reddit.com/r/MinecraftBedrockers/comments/xj0194/new_oac_anticheat_v11_out_now_over_600_downloads/utm_source=share&utm_medium=web2x&context=3) v1.1
+
+  ---
+
 

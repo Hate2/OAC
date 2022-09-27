@@ -1,6 +1,6 @@
 <div align="center">
   
-  ![image](https://media.discordapp.net/attachments/970211181958660127/1019026222979764335/Untitled31_1.png?width=1326&height=201)
+  ![image](https://media.discordapp.net/attachments/974194513767694367/1024220361404989480/Untitled33_1.png)
 
   OAC Anti-cheat! Dedicated on protecting your minecraft realms and world from hackers.<br>
   With a dedicated team we have developed a secure anti-cheat able to eliminate horion or client players as a whole.<br>
@@ -12,7 +12,7 @@
 
   ---
 
-  ![image](https://user-images.githubusercontent.com/90171285/188550636-6bbc1ee2-9b95-4cdc-a982-d1554ddbaebf.png)
+  ![image](https://media.discordapp.net/attachments/974194513767694367/1024220360796799026/Untitled3_1.png)
   
 ```diff
  Anti Namespoof ★ Anti Illegal Items
@@ -33,7 +33,7 @@ Upcoming Features<br>
 ```
   ---
 
-  ![image](https://user-images.githubusercontent.com/90171285/188550662-105b8150-96bf-4f02-ae51-e9ee2890d3fa.png)
+  ![image](https://media.discordapp.net/attachments/974194513767694367/1024220361090408479/Untitled31_1.png)
 
   ### Setup
   ```bash
@@ -69,7 +69,7 @@ Upcoming Features<br>
 
   ---
 
-![image](https://user-images.githubusercontent.com/90171285/188551211-aafb7a4e-ad31-4d88-bc7e-1b53d883a485.png)
+![image](https://media.discordapp.net/attachments/974194513767694367/1024220751584317490/Untitled3_2.png)
   
   ### [Love](https://github.com/Hate2) ★ [Blaze](https://github.com/iBlqzed) ★ [Dooka](https://github.com/DookaDessss)
 

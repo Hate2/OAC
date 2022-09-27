@@ -24,7 +24,7 @@
  Anti 32k ★ Anti CBE
  And more
 ```
- ### We have reconized the false ban issue in v1.1. This will be fixed next releases.
+ ### [We have reconized the false ban issue in v1.1. This will be fixed next releases.](.)
 Upcoming Features [fixed]<br>
 ```diff
  Better Ban Messages ★ Anti Chat Spam

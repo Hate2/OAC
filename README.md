@@ -6,7 +6,7 @@
   With a dedicated team we have developed a secure anti-cheat able to eliminate horion or client players as a whole.<br>
   <a href="https://github.com/Hate2/OAC/releases/tag/V1.1"><img src="https://img.shields.io/static/v1?label=download&message=latest&color=12c970&logo=docusign&logoColor=white" alt="Download Injector" /></a>
   <img src="https://img.shields.io/github/last-commit/Hate2/OAC" alt="Last Commit"/>
-  <img src="https://img.shields.io/github/downloads/Hate2/OAC/total" alt="Downloads"/><br>
+  <img src="https://img.shields.io/github/downloads/Hate2/OAC/total" alt="Downloads"/>
   ### [OAC LINKS](https://github.com/Hate2/OAC/blob/main/LINKS.md)<br>
 
   ---

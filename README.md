@@ -53,7 +53,7 @@ ___
   ```diff
   + Type -menu in chat, then exit chat + 
   ```
-  ---
+  
   ### Banning someone
   ```diff
   + Type -ban "gamertag" reason in chat +
@@ -67,6 +67,12 @@ ___
   ### Seeing a players inventory
   ```diff
   + Type -invsee "gamertag" in chat +
+  ```
+
+  ### Mute or Unmute player
+  ```diff
+  + Type -mute "gamertag" in chat +
+  + Type -unmute "gamertag" in chat +
   ```
 
   ---

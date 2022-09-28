@@ -45,7 +45,7 @@ ___
   ```
   
   ### Giving a player staff
-  ```bash
+  ```diff
   ! Run the command /scoreboard players set "gamertag" oac_admin 1 !
   ```
   

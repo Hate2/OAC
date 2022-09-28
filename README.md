@@ -22,6 +22,7 @@
  Anti Speed ★ Anti Nuker
  Anti Fly ★ Anti Bhop
  Anti 32k ★ Anti CBE
+ Chat Mute & Unmute 
  And more
 ```
  
@@ -30,8 +31,8 @@ Upcoming Features<br>
 - We have reconized the false ban issue in v1.1. This will be fixed next releases -
 ___
  Better Ban Messages ★ Anti Chat Spam
- Chat Mute & Unmute ★ Added Kick
  Freeze Players ★ Anti eChest
+ Kick Command
 ```
   ---
 

@@ -49,6 +49,10 @@ ___
   ```diff
   ! Run the command /scoreboard players set "gamertag" oac_admin 1 !
   ```
+  ### Using the menu
+  ```diff
+  = Type -menu in chat, then exit chat = 
+  ```
   
   ### Banning someone
   ```diff
@@ -63,11 +67,6 @@ ___
   ### Seeing a players inventory
   ```diff
   + Type -invsee "gamertag" in chat +
-  ```
-
-  ### Using the menu
-  ```diff
-  + Type -menu in chat, then exit chat + 
   ```
 
   ---

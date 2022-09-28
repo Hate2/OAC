@@ -24,7 +24,7 @@
  Anti 32k ★ Anti CBE
  And more
 ```
- - ### [We have reconized the false ban issue in v1.1. This will be fixed next releases!.](https://github.com/Hate2/OAC)
+ - We have reconized the false ban issue in v1.1. This will be fixed next releases!
 Upcoming Features<br>
 ```diff
  Better Ban Messages ★ Anti Chat Spam

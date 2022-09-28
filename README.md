@@ -53,7 +53,7 @@ ___
   ```diff
   + Type -menu in chat, then exit chat + 
   ```
-  
+  ---
   ### Banning someone
   ```diff
   + Type -ban "gamertag" reason in chat +

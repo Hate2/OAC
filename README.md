@@ -51,7 +51,7 @@ ___
   ```
   ### Using the menu
   ```diff
-  = Type -menu in chat, then exit chat = 
+  + Type -menu in chat, then exit chat + 
   ```
   
   ### Banning someone

@@ -28,8 +28,7 @@
 Upcoming Features<br>
 ```diff
 - We have reconized the false ban issue in v1.1. This will be fixed next releases -
-```
-```diff
+___
  Better Ban Messages ★ Anti Chat Spam
  Chat Mute & Unmute ★ Added Kick
  Freeze Players ★ Anti eChest

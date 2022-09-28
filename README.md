@@ -46,27 +46,27 @@ ___
   
   ### Giving a player staff
   ```bash
-  Run the command /scoreboard players set "gamertag" oac_admin 1
+  ! Run the command /scoreboard players set "gamertag" oac_admin 1 !
   ```
   
   ### Banning someone
   ```diff
-  Type -ban "gamertag" reason in chat
+  + Type -ban "gamertag" reason in chat +
   ```
 
   ### Unbanning someone
   ```diff
-  Type -unban "gamertag" in chat
+  + Type -unban "gamertag" in chat +
   ```
 
   ### Seeing a players inventory
   ```diff
-  Type -invsee "gamertag" in chat
+  + Type -invsee "gamertag" in chat +
   ```
 
   ### Using the menu
   ```diff
-  +Type -menu in chat, then exit chat 
+  + Type -menu in chat, then exit chat + 
   ```
 
   ---

@@ -15,7 +15,7 @@
   ![image](https://media.discordapp.net/attachments/974194513767694367/1024220360796799026/Untitled3_1.png)
   
 ```diff
-- A issue with admin commands is noticed and will be fixed v1.2 -
+- A issue with admin commands is noticed and will be fixed in v1.2 -
  Anti Namespoof ★ Anti Illegal Items
  Anti Autoclicker ★ Anti Killaura
  Chat Mute & Unmute ★ Anti Bhop

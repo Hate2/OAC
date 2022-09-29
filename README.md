@@ -27,12 +27,17 @@
  
 Upcoming Features<br>
 ```diff
-- We have reconized the false ban issue in v1.1. This will be fixed next releases -
-! A patch was uploaded to v1.1 fixing false ban and eliminating anti fly overall !
 ___
  Better Ban Messages ★ Anti Chat Spam
  Freeze Players ★ Anti eChest
  Kick Command
+```
+
+v1.1 Patch<br>
+```diff
+___
+ - Anti Fly & Speed have been removed -
+ + False ban issue has been resolved and will be fully fixed in v2.0 +
 ```
   ---
 

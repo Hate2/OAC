@@ -34,8 +34,8 @@ Upcoming Features<br>
 
  ### v1.1 Patch<br>
 ```diff
- - Anti Fly & Speed have been removed 
- + False ban issue has been resolved and will be fully fixed in v2.0 
+- Anti Fly & Speed have been removed -
++ False ban issue has been resolved and will be fully fixed in v2.0 +
 ```
   ---
 

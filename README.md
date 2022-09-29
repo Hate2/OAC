@@ -17,18 +17,18 @@
 ```diff
  Anti Namespoof ★ Anti Illegal Items
  Anti Autoclicker ★ Anti Killaura
+ Chat Mute & Unmute ★ Anti Bhop
  Anti Reach ★ Admin Form Menu
  Anti Noclip ★ Chat Filter
  Anti Speed ★ Anti Nuker
- Anti Fly ★ Anti Bhop
  Anti 32k ★ Anti CBE
- Chat Mute & Unmute 
  And more
 ```
  
 Upcoming Features<br>
 ```diff
 - We have reconized the false ban issue in v1.1. This will be fixed next releases -
+! A patch was uploaded to v1.1 fixing false ban and eliminating anti fly overall !
 ___
  Better Ban Messages ★ Anti Chat Spam
  Freeze Players ★ Anti eChest

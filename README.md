@@ -41,9 +41,6 @@ Upcoming Features<br>
   ---
 
   ![image](https://media.discordapp.net/attachments/974194513767694367/1024220361090408479/Untitled31_1.png)
-
-<div align="left">
-
   ### Setup
   ```bash
   Enable {experimental} gametest features on your world

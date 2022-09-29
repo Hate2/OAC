@@ -51,7 +51,7 @@ Upcoming Features<br>
   
   ### Giving a player staff
   ```diff
-  ! Run the command /scoreboard players set "gamertag" oac_admin 1 !
+  + Run the command /scoreboard players set "gamertag" oac_admin 1 +
   ```
   ### Using the menu
   ```diff

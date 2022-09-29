@@ -27,7 +27,6 @@
  
 Upcoming Features<br>
 ```diff
-___
  Better Ban Messages ★ Anti Chat Spam
  Freeze Players ★ Anti eChest
  Kick Command
@@ -35,7 +34,6 @@ ___
 
 v1.1 Patch<br>
 ```diff
-___
  - Anti Fly & Speed have been removed -
  + False ban issue has been resolved and will be fully fixed in v2.0 +
 ```

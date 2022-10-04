@@ -33,7 +33,7 @@ Upcoming Features<br>
  Kick Command
 ```
 
-{ [v1.1 Patch](https://github.com/Hate2/OAC/releases/tag/V1.1) }<br>
+### { [v1.1 Patch](https://github.com/Hate2/OAC/releases/tag/V1.1) }<br>
 
   ![image](https://media.discordapp.net/attachments/974194513767694367/1026736677751881748/Capture.PNG)
 ### Download the recent OAC v1.1 patch via .zip folder located in the Code button dropdown.

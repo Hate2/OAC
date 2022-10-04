@@ -32,6 +32,7 @@ Upcoming Features<br>
  Freeze Players ★ Anti eChest
  Kick Command
 ```
+  ---
 
   ![image](https://media.discordapp.net/attachments/974194513767694367/1026741865447432263/Untitled3.png)
 

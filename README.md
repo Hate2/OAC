@@ -34,6 +34,8 @@ Upcoming Features<br>
 ```
 
  ### { [v1.1 Patch](https://github.com/Hate2/OAC/releases/tag/V1.1) }<br>
+  ![image](https://media.discordapp.net/attachments/974194513767694367/1026736677751881748/Capture.PNG)
+
 ```diff
 ! Anti Fly & Speed have been removed !
 ! False ban issue has been resolved and will be fully fixed in v2.0 "resource update" !

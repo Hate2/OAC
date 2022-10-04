@@ -59,7 +59,7 @@ C.M Mobile: https://youtu.be/WTCdE2JDJ0s C.M Windows: https://youtu.be/Bnb69rXRk
   ```diff
   + Run the command /scoreboard players set "gamertag" oac_admin 1 +
   ```
-  ### Using the menu
+  ### Using the menu [v1.1]
   ```diff
   + Type -menu in chat, then exit chat + 
   ```
@@ -79,7 +79,7 @@ C.M Mobile: https://youtu.be/WTCdE2JDJ0s C.M Windows: https://youtu.be/Bnb69rXRk
   + Type -invsee "gamertag" in chat +
   ```
 
-  ### Mute or Unmute player
+  ### Mute or Unmute player [v1.1 patch]
   ```diff
   + Type -mute "gamertag" in chat +
   + Type -unmute "gamertag" in chat +

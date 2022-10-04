@@ -35,7 +35,7 @@ Upcoming Features<br>
 
 { [v1.1 Patch](https://github.com/Hate2/OAC/releases/tag/V1.1) }<br>
 ### Download the recent OAC v1.1 patch via .zip folder located in the Code button dropdown.
-Remane this .zip folder to .mcpack or repace current version in com.mojang. <br>
+Remane this .zip folder to .mcpack or replace current version in com.mojang. <br>
 C.M Mobile: https://youtu.be/WTCdE2JDJ0s C.M Windows: https://youtu.be/Bnb69rXRk8Q <br>
   ![image](https://media.discordapp.net/attachments/974194513767694367/1026736677751881748/Capture.PNG)
 

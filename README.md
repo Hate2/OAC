@@ -1,6 +1,7 @@
 <div align="center">
   
   ![image](https://media.discordapp.net/attachments/974194513767694367/1024220361404989480/Untitled33_1.png)
+! OAC is currently in beta, there may be current bugs, exploits, issues !
 
   OAC Anti-cheat! Dedicated on protecting your minecraft realms and world from hackers.<br>
   With a dedicated team we have developed a secure anti-cheat able to eliminate horion or client players as a whole.<br>
@@ -15,7 +16,6 @@
   ![image](https://media.discordapp.net/attachments/974194513767694367/1024220360796799026/Untitled3_1.png)
   
 ```diff
-- A issue with admin commands is noted and will be fixed in v1.2 -
  Anti Namespoof ★ Anti Illegal Items
  Anti Autoclicker ★ Anti Killaura
  Chat Mute & Unmute ★ Anti Bhop
